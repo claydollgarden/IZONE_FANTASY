@@ -1,0 +1,167 @@
+﻿[
+  {
+  "id": 1,
+  "name": "일반공격",
+  "atk": 100,
+  "target": [1,2,3,4,5,6,7,8,9],
+  "cooltime": 0,
+  "effectpath": "NormalHit",
+  "moviepath": "default",
+  "iconpath": "icon/skill1",
+  "desc": "냥냥펀치"
+  },
+  {
+  "id": 2,
+  "name": "Skill2",
+  "atk": 150,
+  "target": [5],
+  "cooltime": 0,
+  "effectpath": "NormalHit",
+  "moviepath": "default",
+  "iconpath": "icon/skill2",
+  "desc": "desc"
+  },
+  {
+  "id": 3,
+  "name": "Skill3",
+  "atk": 150,
+  "target": [1,4,7],
+  "cooltime": 0,
+  "effectpath": "NormalHit",
+  "moviepath": "default",
+  "iconpath": "icon/skill3",
+  "desc": "desc"
+  },
+  {
+  "id": 4,
+  "name": "Skill4",
+  "atk": 150,
+  "target": [1,2,3,4,5,6],
+  "cooltime": 0,
+  "effectpath": "NormalHit",
+  "moviepath": "default",
+  "iconpath": "icon/skill4",
+  "desc": "desc"
+  },
+  {
+  "id": 5,
+  "name": "대들지마",
+  "atk": 150,
+  "target": [3,6,9],
+  "cooltime": 0,
+  "effectpath": "BrokenHeart",
+  "moviepath": "Hitomi/hitomi1",
+  "iconpath": "icon/skill5",
+  "desc": "언니는 강하다"
+  },
+  {
+  "id": 6,
+  "name": "괴롭히지마",
+  "atk": 150,
+  "target": [4,5,6],
+  "cooltime": 0,
+  "effectpath": "SmokeExplosion",
+  "moviepath": "Hitomi/hitomi2",
+  "iconpath": "icon/skill6",
+  "desc": "동생은 소중하다"
+  },
+  {
+  "id": 7,
+  "name": "Skill7",
+  "atk": 150,
+  "target": [4,5,6],
+  "cooltime": 0,
+  "effectpath": "NormalHit",
+  "moviepath": "default",
+  "iconpath": "icon/skill7",
+  "desc": "desc"
+  },
+  {
+  "id": 8,
+  "name": "Skill8",
+  "atk": 150,
+  "target": [4,5,6],
+  "cooltime": 0,
+  "effectpath": "NormalHit",
+  "moviepath": "default",
+  "iconpath": "icon/skill8",
+  "desc": "desc"
+  },
+  {
+  "id": 9,
+  "name": "Skill9",
+  "atk": 150,
+  "target": [4,5,6],
+  "cooltime": 0,
+  "effectpath": "NormalHit",
+  "moviepath": "default",
+  "iconpath": "icon/skill9",
+  "desc": "desc"
+  },
+  {
+  "id": 10,
+  "name": "Skill10",
+  "atk": 150,
+  "target": [4,5,6],
+  "cooltime": 0,
+  "effectpath": "NormalHit",
+  "moviepath": "default",
+  "iconpath": "icon/skill10",
+  "desc": "desc"
+  },
+  {
+  "id": 11,
+  "name": "Skill11",
+  "atk": 150,
+  "target": [4,5,6],
+  "cooltime": 0,
+  "effectpath": "NormalHit",
+  "moviepath": "default",
+  "iconpath": "icon/skill11",
+  "desc": "desc"
+  },
+  {
+  "id": 12,
+  "name": "Skill12",
+  "atk": 150,
+  "target": [4,5,6],
+  "cooltime": 0,
+  "effectpath": "NormalHit",
+  "moviepath": "default",
+  "iconpath": "icon/skill12",
+  "desc": "desc"
+  },
+  {
+  "id": 13,
+  "name": "Skill13",
+  "atk": 150,
+  "target": [4,5,6],
+  "moviepath": "default",
+  "cooltime": 0,
+  "effectpath": "NormalHit",
+  "iconpath": "icon/skill13",
+  "desc": "desc"
+  },
+  {
+  "id": 14,
+  "name": "Skill14",
+  "atk": 150,
+  "target": [4,5,6],
+  "moviepath": "default",
+  "cooltime": 0,
+  "effectpath": "NormalHit",
+  "iconpath": "icon/skill14",
+  "desc": "desc"
+  },
+  {
+  "id": 15,
+  "name": "Skill15",
+  "atk": 100,
+  "target": [4,5,6],
+  "moviepath": "default",
+  "cooltime": 0,
+  "effectpath": "NormalHit",
+  "iconpath": "icon/skill15",
+  "desc": "desc"
+  }
+]

@@ -1,0 +1,137 @@
+[
+  {
+  "id": 1,
+  "name": "NPC1",
+  "hp": 1500,
+  "atk": 100,
+  "def": 100,
+  "speed": 100,
+  "enemyskill": [1,2,3]
+  },
+  {
+  "id": 2,
+  "name": "NPC2",
+  "hp": 1500,
+  "atk": 100,
+  "def": 100,
+  "speed": 100,
+  "enemyskill": [1,2,3]
+  },
+  {
+  "id": 3,
+  "name": "NPC3",
+  "hp": 1500,
+  "atk": 100,
+  "def": 100,
+  "speed": 100,
+  "enemyskill": [1,2,3]
+  },
+  {
+  "id": 4,
+  "name": "NPC4",
+  "hp": 1500,
+  "atk": 100,
+  "def": 100,
+  "speed": 100,
+  "enemyskill": [1,2,3]
+  },
+  {
+  "id": 5,
+  "name": "NPC5",
+  "hp": 1500,
+  "atk": 100,
+  "def": 100,
+  "speed": 100,
+  "enemyskill": [1,2,3]
+  },
+  {
+  "id": 6,
+  "name": "NPC6",
+  "hp": 1500,
+  "atk": 100,
+  "def": 100,
+  "speed": 100,
+  "enemyskill": [1,2,3]
+  },
+  {
+  "id": 7,
+  "name": "NPC7",
+  "hp": 1500,
+  "atk": 100,
+  "def": 100,
+  "speed": 100,
+  "enemyskill": [1,2,3]
+  },
+  {
+  "id": 8,
+  "name": "NPC8",
+  "hp": 1500,
+  "atk": 100,
+  "def": 100,
+  "speed": 100,
+  "enemyskill": [1,2,3]
+  },
+  {
+  "id": 9,
+  "name": "NPC9",
+  "hp": 1500,
+  "atk": 100,
+  "def": 100,
+  "speed": 100,
+  "enemyskill": [1,2,3]
+  },
+  {
+  "id": 10,
+  "name": "NPC10",
+  "hp": 1500,
+  "atk": 100,
+  "def": 100,
+  "speed": 100,
+  "enemyskill": [1,2,3]
+  },
+  {
+  "id": 11,
+  "name": "NPC11",
+  "hp": 1500,
+  "atk": 100,
+  "def": 100,
+  "speed": 100,
+  "enemyskill": [1,2,3]
+  },
+  {
+  "id": 12,
+  "name": "NPC12",
+  "hp": 1500,
+  "atk": 100,
+  "def": 100,
+  "speed": 100,
+  "enemyskill": [1,2,3]
+  },
+  {
+  "id": 13,
+  "name": "NPC13",
+  "hp": 1500,
+  "atk": 100,
+  "def": 100,
+  "speed": 100,
+  "enemyskill": [1,2,3]
+  },
+  {
+  "id": 14,
+  "name": "NPC14",
+  "hp": 1500,
+  "atk": 100,
+  "def": 100,
+  "speed": 100,
+  "enemyskill": [1,2,3]
+  },
+  {
+  "id": 15,
+  "name": "NPC15",
+  "hp": 1500,
+  "atk": 100,
+  "def": 100,
+  "speed": 100,
+  "enemyskill": [1,2,3]
+  }
+]

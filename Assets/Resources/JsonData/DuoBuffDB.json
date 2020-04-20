@@ -1,0 +1,515 @@
+[
+  {
+  "id": 1,
+  "name": "99즈",
+  "effect" : 110,
+  "target" : [4,8],
+  "status" : 0,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "99즈 영원하자"
+  },
+  {
+  "id": 2,
+  "name": "김앤장",
+  "effect" : 110,
+  "target" : [1,11],
+  "status" : 1,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "아이즈원 법인 김앤장"
+  },
+  {
+  "id": 3,
+  "name": "견댕즈",
+  "effect" : 110,
+  "target" : [5,7],
+  "status" : 2,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "꼴찌즈"
+  },
+  {
+  "id": 4,
+  "name": "광땡",
+  "effect" : 110,
+  "target" : [5,8],
+  "status" : 3,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "댕댕이와 광순이"
+  },
+  {
+  "id": 5,
+  "name": "구리즈",
+  "effect" : 110,
+  "target" : [3,11],
+  "status" : 0,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "구리구리"
+  },
+  {
+  "id": 6,
+  "name": "꾸비즈",
+  "effect" : 110,
+  "target" : [2,7],
+  "status" : 0,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "리더즈"
+  },
+  {
+  "id": 7,
+  "name": "톰과제리",
+  "effect" : 110,
+  "target" : [2,4],
+  "status" : 1,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "녜녜즈, 꾸옌, 제리즈"
+  },
+  {
+  "id": 8,
+  "name": "꾸챈",
+  "effect" : 110,
+  "target" : [2,12],
+  "status" : 3,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "이꾸라 미야와키채연"
+  },
+  {
+  "id": 9,
+  "name": "꿀물즈",
+  "effect" : 110,
+  "target" : [3,12],
+  "status" : 3,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "조유리 너의 목은 소중하다"
+  },
+  {
+  "id": 10,
+  "name": "나비",
+  "effect" : 110,
+  "target" : [6,7],
+  "status" : 0,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "이 세상 귀여움이 아니다"
+  },
+  {
+  "id": 11,
+  "name": "날개즈",
+  "effect" : 110,
+  "target" : [5,12],
+  "status" : 3,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "깃털소녀"
+  },
+  {
+  "id": 12,
+  "name": "낰원",
+  "effect" : 110,
+  "target" : [1,6],
+  "status" : 1,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "애교즈"
+  },
+  {
+  "id": 13,
+  "name": "낰챈",
+  "effect" : 110,
+  "target" : [6,12],
+  "status" : 3,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "파워뽀짝"
+  },
+  {
+  "id": 14,
+  "name": "냥댕즈",
+  "effect" : 110,
+  "target" : [2,5],
+  "status" : 1,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "꾸라엄마 유진애기"
+  },
+  {
+  "id": 15,
+  "name": "녜비",
+  "effect" : 110,
+  "target" : [4,7],
+  "status" : 2,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "그녀들의 경계선"
+  },
+  {
+  "id": 16,
+  "name": "댕댕즈",
+  "effect" : 110,
+  "target" : [3,5],
+  "status" : 1,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "댕댕"
+  },
+  {
+  "id": 17,
+  "name": "마포즈",
+  "effect" : 110,
+  "target" : [7,12],
+  "status" : 3,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "엄빠즈"
+  },
+  {
+  "id": 18,
+  "name": "맏막즈",
+  "effect" : 110,
+  "target" : [1,7],
+  "status" : 3,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "맏.막.즈.야"
+  },
+  {
+  "id": 19,
+  "name": "밍꾸",
+  "effect" : 110,
+  "target" : [2,11],
+  "status" : 1,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "사귀고 싶습니다"
+  },
+  {
+  "id": 20,
+  "name": "배째즈",
+  "effect" : 110,
+  "target" : [8,12],
+  "status" : 3,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "브이라이브 폭파 가능"
+  },
+  {
+  "id": 21,
+  "name": "부심즈",
+  "effect" : 110,
+  "target" : [1,12],
+  "status" : 3,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "언니부심 막내부심"
+  },
+  {
+  "id": 22,
+  "name": "빵댕즈",
+  "effect" : 110,
+  "target" : [5,9],
+  "status" : 0,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "언니한테 대들지마!"
+  },
+  {
+  "id": 23,
+  "name": "빵배",
+  "effect" : 110,
+  "target" : [8,9],
+  "status" : 2,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "매너손"
+  },
+  {
+  "id": 24,
+  "name": "샄낰",
+  "effect" : 110,
+  "target" : [2,6],
+  "status" : 1,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "하카타 자매"
+  },
+  {
+  "id": 25,
+  "name": "쿠우즈",
+  "effect" : 110,
+  "target" : [1,2],
+  "status" : 1,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "쿠라 원영 화이팅"
+  },
+  {
+  "id": 26,
+  "name": "쌈광",
+  "effect" : 110,
+  "target" : [8,10],
+  "status" : 3,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "좌쌈 우광"
+  },
+  {
+  "id": 27,
+  "name": "쌈낰",
+  "effect" : 110,
+  "target" : [6,10],
+  "status" : 0,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "요정즈"
+  },
+  {
+  "id": 28,
+  "name": "쌈빵",
+  "effect" : 110,
+  "target" : [9,10],
+  "status" : 1,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "쌈토미"
+  },
+  {
+  "id": 29,
+  "name": "쌈장즈",
+  "effect" : 110,
+  "target" : [1,10],
+  "status" : 2,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "안녕하세요! 저희는 쌈장즈에요!"
+  },
+  {
+  "id": 30,
+  "name": "쌍김즈",
+  "effect" : 110,
+  "target" : [10,11],
+  "status" : 2,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "인생의 동반자"
+  },
+  {
+  "id": 31,
+  "name": "안녕즈",
+  "effect" : 110,
+  "target" : [1,5],
+  "status" : 2,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "인간국보"
+  },
+  {
+  "id": 32,
+  "name": "앙코",
+  "effect" : 110,
+  "target" : [5,6],
+  "status" : 0,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "케토톱"
+  },
+  {
+  "id": 33,
+  "name": "예나코",
+  "effect" : 110,
+  "target" : [4,6],
+  "status" : 3,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "낰옌"
+  },
+  {
+  "id": 34,
+  "name": "옌녕",
+  "effect" : 110,
+  "target" : [1,4],
+  "status" : 2,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "원영 예나 크로스!"
+  },
+  {
+  "id": 35,
+  "name": "옌율",
+  "effect" : 120,
+  "target" : [3,4],
+  "status" : 1,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "아이즈원 공식 커플"
+  },
+  {
+  "id": 36,
+  "name": "오리쌈",
+  "effect" : 110,
+  "target" : [4,10],
+  "status" : 0,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "오리쌈무"
+  },
+  {
+  "id": 37,
+  "name": "예민즈",
+  "effect" : 110,
+  "target" : [4,11],
+  "status" : 2,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "여신짤 생성메이트"
+  },
+  {
+  "id": 38,
+  "name": "오리털",
+  "effect" : 120,
+  "target" : [4,12],
+  "status" : 3,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "리드댄서"
+  },
+  {
+  "id": 39,
+  "name": "울림즈",
+  "effect" : 110,
+  "target" : [7,10],
+  "status" : 0,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "무한사랑"
+  },
+  {
+  "id": 40,
+  "name": "워니지니",
+  "effect" : 110,
+  "target" : [5,10],
+  "status" : 1,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "구몬즈"
+  },
+  {
+  "id": 41,
+  "name": "유채꽃",
+  "effect" : 110,
+  "target" : [3,10],
+  "status" : 2,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "쌈율, 율무차"
+  },
+  {
+  "id": 42,
+  "name": "율광",
+  "effect" : 110,
+  "target" : [3,8],
+  "status" : 0,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "형제즈"
+  },
+  {
+  "id": 43,
+  "name": "율낰",
+  "effect" : 110,
+  "target" : [3,6],
+  "status" : 1,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "영혼의 룸메이트"
+  },
+  {
+  "id": 44,
+  "name": "율빵",
+  "effect" : 110,
+  "target" : [3,9],
+  "status" : 2,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "지송지송"
+  },
+  {
+  "id": 45,
+  "name": "윶옌",
+  "effect" : 110,
+  "target" : [4,5],
+  "status" : 0,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "풋풋즈"
+  },
+  {
+  "id": 46,
+  "name": "장조림즈",
+  "effect" : 110,
+  "target" : [3,4],
+  "status" : 1,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "장.조.림.즈"
+  },
+  {
+  "id": 47,
+  "name": "주비",
+  "effect" : 110,
+  "target" : [7,11],
+  "status" : 2,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "감성 메이트"
+  },
+  {
+  "id": 48,
+  "name": "주빵",
+  "effect" : 110,
+  "target" : [9,11],
+  "status" : 0,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "뽀뽀하고 싶다"
+  },
+  {
+  "id": 49,
+  "name": "진주",
+  "effect" : 110,
+  "target" : [5,11],
+  "status" : 1,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "진주즈"
+  },
+  {
+  "id": 50,
+  "name": "채채즈",
+  "effect" : 110,
+  "target" : [10,12],
+  "status" : 3,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : ""
+  },
+  {
+  "id": 51,
+  "name": "천퍼즈",
+  "effect" : 110,
+  "target" : [11,12],
+  "status" : 3,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "팥물즈, 붓기즈"
+  },
+  {
+  "id": 52,
+  "name": "쿠팡",
+  "effect" : 110,
+  "target" : [2,8],
+  "status" : 1,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "몽샄, HYEKURA"
+  },
+  {
+  "id": 53,
+  "name": "털복숭아",
+  "effect" : 110,
+  "target" : [9,12],
+  "status" : 3,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "빵챈, 챈히"
+  },
+  {
+  "id": 54,
+  "name": "혜원영",
+  "effect" : 110,
+  "target" : [1,8],
+  "status" : 1,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "어쩔수없지"
+  },
+  {
+  "id": 55,
+  "name": "히낰",
+  "effect" : 110,
+  "target" : [6,9],
+  "status" : 2,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "히나코"
+  },
+  {
+  "id": 56,
+  "name": "히녕",
+  "effect" : 110,
+  "target" : [1,9],
+  "status" : 0,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : ""
+  },
+  {
+  "id": 57,
+  "name": "히토미즈",
+  "effect" : 110,
+  "target" : [4,9],
+  "status" : 1,
+  "iconpath" : "SingleBuffIcon1",
+  "description" : "오바띠띠야"
+  }
+]
