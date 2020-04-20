@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
-public class BattleManager : SingletonMonoBehaviour<BattleManager>
+public class BattleManager : MonoBehaviour
 {
     public BattleUIManager battleUIManager;
     public CutInManager cutInManager;
     public VideoManager videoManager;
     public EffectManager effectManager;
+    public BuffDataManager buffDataManager;
     public BattleMapTile[] playerTile;
     public BattleMapTile[] enemyTile;
     public DeckCharInfoPanel deckCharInfo;
@@ -17,21 +18,22 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
     public List<BattleCharacter> enemyList = new List<BattleCharacter>();
     public List<BattleCharacter> playerList = new List<BattleCharacter>();
     public List<BattleCharacter> allBattleCharList = new List<BattleCharacter>();
+    public List<SingleBuffDB> activeBuffDBList = new List<SingleBuffDB>();
+    public List<BuffDataObject> myBuffList = new List<BuffDataObject>();
 
-    public List<BattleCharIcon> myDeckList = new List<BattleCharIcon>();
+    public BuffDataObject buffIconPrefab;
 
-    public BattleCharIcon myCharListPrefab;
     public BattleCharacter battleCharPrefab;
 
     public int currentSelectedChar;
     public int currentDeckNumber;
 
-    public GameObject scrollViewContent;
     public GameObject charObjects;
     public GameObject tileObject;
+    public GameObject buffIconViewObject;
+    public GameObject buffIconViewContent;
 
     public Sprite[] charSheet;
-    public Sprite[] charIconSheet;
 
     public BattleStatus battleStatus;
 
@@ -41,6 +43,7 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
     public BattleCharacter targetChar;
 
     public SkillCard selectedCard;
+
 
     public enum BattleStatus
     {
@@ -59,6 +62,9 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
     {
         GameManager.Instance.currentSceneState = GameManager.SceneStatus.battle;
         deckCharInfo.SetActiveObject(false);
+        battleUIManager.ActiveButtons(true);
+        buffIconViewObject.SetActive(true);
+        buffDataManager.SetBuffDataBase();
         battleStatus = BattleStatus.Init;
         battleCharPrefab.enabled = false;
         selectedCard = null;
@@ -98,11 +104,8 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
     public void SetPlayerChar(int selectedMapId)
     {
         Debug.Log("SetPlayerChar, selectedMapId : " + selectedMapId);
-        if (currentSelectedChar != 0 && checkCurrentCharMapPosition(selectedMapId))
+        if (currentSelectedChar != 0)
         {
-            checkSameCharPosition();
-            checkSameMapPosition(selectedMapId);
-
             BattleCharacter charObj = Instantiate(battleCharPrefab);
             charObj.playerCharInit(charSheet[currentSelectedChar - 1], currentSelectedChar);
 
@@ -116,54 +119,6 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
             currentSelectedChar = 0;
 
             InitMaptile();
-        }
-    }
-
-    public bool checkCurrentCharMapPosition(int selectedMapId)
-    {
-        BattleCharacterDB charObjDB = DataBaseManager.Instance.battleCharacterDB.Get(currentSelectedChar);
-
-        for (int i = 0; i < charObjDB.position.Length; i++)
-        {
-            Debug.Log("charObjDB.position[i] : " + charObjDB.position[i]);
-            if (charObjDB.position[i] == selectedMapId)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public void checkSameMapPosition(int selectedMapId)
-    {
-        if (playerList.Count > 0)
-        {
-            Debug.Log("checkSameMapPosition");
-            for (int i = 0; i < playerList.Count; i++)
-            {
-                if (playerList[i].charPosition == selectedMapId)
-                {
-                    Destroy(playerList[i].gameObject);
-                    playerList.RemoveAt(i);
-                }
-            }
-        }
-    }
-
-    public void checkSameCharPosition()
-    {
-        if (playerList.Count > 0)
-        {
-            Debug.Log("checkSameCharPosition");
-            for (int i = 0 ; i < playerList.Count ; i++)
-            {
-                if(playerList[i].charId == currentSelectedChar)
-                {
-                    Destroy(playerList[i].gameObject);
-                    playerList.RemoveAt(i);
-                }
-            }
         }
     }
 
@@ -230,6 +185,18 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
         }
     }
 
+    public void SetBuffStatus()
+    {
+        foreach(BattleCharacter currentChar in playerList)
+        {
+            foreach(BuffDataObject buffData in myBuffList)
+            {
+                Debug.Log("SetBuffStatus");
+                currentChar.SetBuffStatus(buffData.buffData.status, buffData.buffData.effect);
+            }
+        }
+    }
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -237,36 +204,7 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
             
-            if (battleStatus == BattleStatus.decksetting)
-            {
-                if (hit.collider != null)
-                {
-                    if (hit.collider.GetComponent<BattleMapTile>() != null)
-                    {
-                        SetPlayerChar(hit.collider.GetComponent<BattleMapTile>().mapId);
-
-                        CheckDeckIcon();
-                    }
-
-                    if (hit.collider.GetComponent<BattleCharIcon>() != null)
-                    {
-                        tileObject.SetActive(false);
-                        charObjects.SetActive(false);
-                        deckCharInfo.SetActiveObject(true);
-                        deckCharInfo.SetData(hit.collider.GetComponent<BattleCharIcon>().charId);
-                        Debug.Log("deckCharInfo.SetActiveObject");
-                    }
-                }
-                else
-                {
-                    deckCharInfo.SetActiveObject(false);
-                    charObjects.SetActive(true);
-                    tileObject.SetActive(true);
-                    InitMaptile();
-                    currentSelectedChar = 0;
-                }
-            }
-            else if (battleStatus == BattleStatus.select)
+            if (battleStatus == BattleStatus.select)
             {
                 if (hit.collider != null && selectedCard != null)
                 {
@@ -299,38 +237,6 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
         {
             Ray upRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D upHit = Physics2D.GetRayIntersection(upRay, Mathf.Infinity);
-
-            if (battleStatus == BattleStatus.decksetting)
-            {
-                if (upHit.collider != null)
-                {
-                    if (upHit.collider.GetComponent<BattleCharIcon>() != null)
-                    {
-                        tileObject.SetActive(true);
-                        charObjects.SetActive(true);
-                        deckCharInfo.SetActiveObject(false);
-
-                        BattleCharIcon charIcon;
-
-                        charIcon = upHit.collider.GetComponent<BattleCharIcon>();
-
-                        InitMaptile();
-
-                        currentSelectedChar = charIcon.charId;
-
-                        for (int i = 0; i < charIcon.battleCharDB.position.Length; i++)
-                        {
-                            playerTile[charIcon.battleCharDB.position[i] - 1].SetActiveSelectImage(true);
-                        }
-                    }
-                }
-                else
-                {
-                    tileObject.SetActive(true);
-                    charObjects.SetActive(true);
-                    deckCharInfo.SetActiveObject(false);
-                }
-            }
         }
     }
 
@@ -340,9 +246,9 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
         {
             for (int i = 0; i < GameManager.Instance.userData.myDeck[currentDeckNumber].Count; i++)
             {
-                Debug.Log("i :  " + i);
-                Debug.Log("Mydeck :  " + GameManager.Instance.userData.myDeck[currentDeckNumber][i]);
                 currentSelectedChar = GameManager.Instance.userData.myDeck[currentDeckNumber][i];
+
+                buffDataManager.CheckBuffCharNumber(currentSelectedChar);
 
                 SetPlayerChar(GameManager.Instance.userData.myDeckPosition[currentDeckNumber][i]);
 
@@ -351,14 +257,33 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
 
         }
 
-        CheckDeckIcon();
+        activeBuffDBList = buffDataManager.GetCurrentBuffList();
+
+        BuffIconAdd();
     }
 
-    public void CheckDeckIcon()
+    public void BuffIconAdd()
     {
-        for (int i = 0; i < myDeckList.Count; i++)
+        for (int i = 0; i < activeBuffDBList.Count; i++)
         {
-            myDeckList[i].SetDeckIcon(myDeckList[i].CheckId(playerList.Select(x => x.charId).ToList()));
+            BuffDataObject itemObj = Instantiate(buffIconPrefab);
+            itemObj.InitBuffDataObject(activeBuffDBList[i]);
+            itemObj.transform.SetParent(buffIconViewContent.transform, false);
+            myBuffList.Add(itemObj);
+        }
+    }
+
+    public void DeleteBuffICon()
+    {
+        for (int i = myBuffList.Count - 1; i >= 0; i--)
+        {
+            Destroy(myBuffList[i].gameObject);
+            myBuffList.RemoveAt(i);
+        }
+
+        for (int i = activeBuffDBList.Count - 1; i >= 0; i--)
+        {
+            activeBuffDBList.RemoveAt(i);
         }
     }
 
@@ -368,6 +293,9 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
         currentSelectedChar = 0;
         InitMaptile();
         DeleteAllCharList();
+
+        DeleteBuffICon();
+        buffDataManager.CleanCheckcount();
 
         SetDeckInit();
     }
@@ -382,6 +310,16 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
                 playerList.RemoveAt(i);
             }
         }
+    }
+
+    public void DeckSetCompleteClicked()
+    {
+        battleStatus = BattleStatus.battlestart;
+    }
+
+    public void GoToDeckSceneClicked()
+    {
+        SceneManager.LoadScene("DeckScene");
     }
 
     public IEnumerator DamagedAnimation()
@@ -434,17 +372,6 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
         battleUIManager.skillSelectPanel.activeSkillPanel(false);
 
         charSheet = GameManager.Instance.charSheet;
-        charIconSheet = GameManager.Instance.charIconSheet;
-
-        for (int i = 0; i < GameManager.Instance.userData.myCharacters.Count; i++)
-        {
-            BattleCharIcon itemObj = Instantiate(myCharListPrefab);
-            itemObj.charId = GameManager.Instance.userData.myCharacters[i];
-            itemObj.charIcon.sprite = charIconSheet[itemObj.charId-1];
-            itemObj.transform.SetParent(scrollViewContent.transform, false);
-            itemObj.Init();
-            myDeckList.Add(itemObj);
-        }
 
         setEnemy();
 
@@ -464,6 +391,9 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
     {
         battleUIManager.BattleStartMessge(true);
         battleUIManager.deckButtons.SetActive(false);
+        battleUIManager.ActiveButtons(false);
+        buffIconViewObject.SetActive(false);
+        SetBuffStatus();
 
         for (int i = 0; i < playerList.Count; i++)
         {

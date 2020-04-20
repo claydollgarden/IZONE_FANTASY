@@ -20,8 +20,8 @@ public class DeckManager : MonoBehaviour
 
     public BattleMapTile[] playerTile;
     public List<BattleCharacter> playerList = new List<BattleCharacter>();
-    public List<SingleBuffDB> activeBuffDBList = new List<SingleBuffDB>();
     public List<BattleCharIcon> myDeckList = new List<BattleCharIcon>();
+    public List<SingleBuffDB> activeBuffDBList = new List<SingleBuffDB>();
     public List<BuffDataObject> myBuffList = new List<BuffDataObject>();
 
     public GameObject scrollViewContent;

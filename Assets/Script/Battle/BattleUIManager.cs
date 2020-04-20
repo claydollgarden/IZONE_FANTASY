@@ -6,12 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class BattleUIManager : MonoBehaviour
 {
-    public GameObject unitSelectUIPanel;
     public GameObject battleStartMessageObj;
     public GameObject deckButtons;
     public TurnOrderIcon turnOrderPrefab;
     public GameObject turnOrderPanelTransform;
     public DamageTextObject damageTextObject;
+
+    public Button[] buttons;
 
     public Toggle skipButton;
 
@@ -23,23 +24,19 @@ public class BattleUIManager : MonoBehaviour
     void Start()
     {
         skipButton.gameObject.SetActive(false);
-        unitSelectUIPanel.transform.localPosition = new Vector3(500.0f, unitSelectUIPanel.transform.localPosition.y, unitSelectUIPanel.transform.localPosition.z);
-    }
-
-    public void DeckSetCompleteClicked()
-    {
-        Debug.Log("DeckSetCompleteClicked");
-        //SceneManager.LoadScene("MapScene");
-        if(BattleManager.Instance.playerList.Count > 0 && BattleManager.Instance.playerList.Count <= 6)
-        {
-            unitSelectUIPanel.transform.localPosition = new Vector3(1420.0f, unitSelectUIPanel.transform.localPosition.y, unitSelectUIPanel.transform.localPosition.z);
-            BattleManager.Instance.battleStatus = BattleManager.BattleStatus.battlestart;
-        }
     }
 
     public void BattleStartMessge(bool flg)
     {
         battleStartMessageObj.SetActive(flg);
+    }
+
+    public void ActiveButtons(bool flg)
+    {
+        foreach(Button btn in buttons)
+        {
+            btn.gameObject.SetActive(flg);
+        }
     }
 
     public void SetTurnOrderIcon(List<BattleCharacter> TurnOrderCharList)

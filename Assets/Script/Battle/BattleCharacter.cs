@@ -26,6 +26,14 @@ public class BattleCharacter : MonoBehaviour
 
     public List<BattleEnemySkillDB> battleEnemySkills = new List<BattleEnemySkillDB>();
 
+    enum BuffStatus : byte
+    {
+        HP = 0,
+        ATK,
+        DEF,
+        SPD
+    }
+
     public void enemyCharInit(Sprite image, int charNumber)
     {
         charImage.sprite = image;
@@ -75,6 +83,33 @@ public class BattleCharacter : MonoBehaviour
         for (int i = 0; i < charDB.skill.Length; i++)
         {
             battleEnemySkills.Add(DataBaseManager.Instance.battleEnemySkillDB.Get(charDB.skill[i]));
+        }
+    }
+
+    public void SetBuffStatus(int buffNumber, int buffPower)
+    {
+        Debug.Log("buffNumber : " + buffNumber);
+        Debug.Log("buffPower : " + buffPower);
+        Debug.Log("(buffPower / 100) : " + (buffPower / 100));
+        switch ((BuffStatus)buffNumber)
+        {
+            case BuffStatus.HP:
+                hp = hp * buffPower / 100;
+                currentHp = hp;
+                Debug.Log("hp : " + hp);
+                break;
+            case BuffStatus.ATK:
+                atk = atk * buffPower / 100;
+                Debug.Log("atk : " + atk);
+                break;
+            case BuffStatus.DEF:
+                def = def * buffPower / 100;
+                Debug.Log("def : " + def);
+                break;
+            case BuffStatus.SPD:
+                speed = speed * buffPower / 100;
+                Debug.Log("speed : " + speed);
+                break;
         }
     }
 
