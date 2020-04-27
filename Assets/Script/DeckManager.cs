@@ -47,10 +47,12 @@ public class DeckManager : MonoBehaviour
         charSheet = GameManager.Instance.charSheet;
         charIconSheet = GameManager.Instance.charIconSheet;
 
-        for (int i = 0; i < GameManager.Instance.userData.myCharacters.Count; i++)
+        //for (int i = 0; i < GameManager.Instance.userData.myCharacters.Count; i++)
+        for (int i = 0; i < GameManager.Instance.userData.myCharactersList.Count; i++)
         {
             BattleCharIcon itemObj = Instantiate(myCharListPrefab);
-            itemObj.charId = GameManager.Instance.userData.myCharacters[i];
+            itemObj.charId = GameManager.Instance.userData.myCharactersList.Keys.ToList()[i];
+            //itemObj.charId = GameManager.Instance.userData.myCharacters[i];
             itemObj.charIcon.sprite = charIconSheet[itemObj.charId - 1];
             itemObj.transform.SetParent(scrollViewContent.transform, false);
             itemObj.Init(GameManager.Instance.userData.myDeck[0]);
@@ -363,7 +365,7 @@ public class DeckManager : MonoBehaviour
         isClicked = false;
         Color color = fullScreenImage.color;
 
-        float time = 1.0f;
+        float time = 0.5f;
         float elapsedTime = 0.0f;
 
         while (elapsedTime < time)
@@ -391,7 +393,7 @@ public class DeckManager : MonoBehaviour
 
         Color color = fullScreenImage.color;
 
-        float time = 1.0f;
+        float time = 0.5f;
         float elapsedTime = 0.0f;
 
         while (elapsedTime < time)

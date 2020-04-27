@@ -15,6 +15,8 @@ public class DataBaseManager : SingletonMonoBehaviour<DataBaseManager>
     public CachedRecords<BattleEnemyCharStatusDB> battleEnemyStatusDB;
     public CachedRecords<VisualNovelDB> visualNovelDB;
     public CachedRecords<SingleBuffDB> singleBuffDB;
+    public CachedRecords<LevelExpTableDB> levelExpTableDB;
+    public CachedRecords<ItemDB> itemDB;
 
     //save data
     public SaveData saveData = new SaveData();
@@ -34,6 +36,8 @@ public class DataBaseManager : SingletonMonoBehaviour<DataBaseManager>
         battleEnemyStatusDB = new CachedRecords<BattleEnemyCharStatusDB>();
         visualNovelDB = new CachedRecords<VisualNovelDB>();
         singleBuffDB = new CachedRecords<SingleBuffDB>();
+        levelExpTableDB = new CachedRecords<LevelExpTableDB>();
+        itemDB = new CachedRecords<ItemDB>();
 
         saveData.Load();
     }
@@ -121,12 +125,20 @@ public interface IUserLocalData
 [Serializable]
 public class UserData : IUserLocalData
 {
+    public struct CharStatus
+    {
+        int level;
+
+    }
     public string name;
     public int userId;
 
     public int questStep;
 
-    public List<int> myCharacters;
+    public int currentMoney;
+
+    public Dictionary<int, int> myCharactersList;
+    public Dictionary<int, int> myItemList;
     public List<int> clearedQuests;
 
     public List<List<int>> myDeck;
@@ -137,7 +149,9 @@ public class UserData : IUserLocalData
         name = "";
         userId = 0;
         questStep = 0;
-        myCharacters = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}; //dummy data
+        currentMoney = 5000;
+        myCharactersList = new Dictionary<int, int>() { { 4, 146 }, { 9, 482 } };
+        myItemList = new Dictionary<int, int>() { { 1, 3 }, { 2, 5 } };
         clearedQuests = new List<int>();
         myDeck = new List<List<int>> { new List<int>() { 4, 9 }, new List<int>() { }, new List<int>() { }, new List<int>() { }, new List<int>() { } };
         myDeckPosition = new List<List<int>> { new List<int>() { 2, 8 }, new List<int>() { }, new List<int>() { }, new List<int>() { }, new List<int>() { } };
@@ -196,6 +210,12 @@ public class FieldSymbolDB : DBBase
 }
 
 [Serializable]
+public class LevelExpTableDB : DBBase
+{
+    public int exp;
+}
+
+[Serializable]
 public class BattleCharacterDB : DBBase
 {
     public string name;
@@ -208,6 +228,7 @@ public class BattleCharacterDB : DBBase
     public int[] skill;
     public int[] position;
     public string description;
+    public string illust;
 }
 
 [Serializable]
@@ -218,6 +239,10 @@ public class BattleEnemyCharStatusDB : DBBase
     public int atk;
     public int def;
     public int speed;
+    public int[] gold;
+    public int item;
+    public int itempercent;
+    public int exp;
     public int[] enemyskill;
 }
 
@@ -254,4 +279,11 @@ public class SingleBuffDB : DBBase
     public int checkcount;
     public string iconpath;
     public string description;
+}
+
+public class ItemDB : DBBase
+{
+    public string name;
+    public string imagepath;
+    public int charnumber;
 }

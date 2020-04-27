@@ -12,6 +12,7 @@ public class DeckCharInfoPanel : MonoBehaviour
     public Text defText;
     public Text speedText;
     public Text descText;
+    public Text levelText;
 
     public Text skillName1;
     public Text skillPower1;
@@ -25,6 +26,8 @@ public class DeckCharInfoPanel : MonoBehaviour
     public Text skillPower3;
     public Text skillDesc3;
 
+    public Text illustedName;
+
     public void SetActiveObject(bool flg)
     {
         gameObject.SetActive(flg);
@@ -37,11 +40,13 @@ public class DeckCharInfoPanel : MonoBehaviour
         thumbnailImage.sprite = sprite;
 
         var charDB = DataBaseManager.Instance.battleCharacterDB.Get(battleCharNumber, false);
+        int level = (GameManager.Instance.userData.myCharactersList[battleCharNumber] / 150);
+        levelText.text = (level + 1).ToString();
         nameText.text = charDB.name;
-        atkText.text = charDB.atk.ToString();
-        defText.text = charDB.def.ToString();
+        atkText.text = (charDB.atk * (10 + level) / 10).ToString();
+        defText.text = (charDB.def * (10 + level) / 10).ToString();
         descText.text = charDB.description;
-        speedText.text = charDB.speed.ToString();
+        speedText.text = (charDB.speed * (10 + level) / 10).ToString();
 
         var charSkillDB = DataBaseManager.Instance.battleEnemySkillDB.Get(charDB.skill[0]);
 
@@ -60,11 +65,7 @@ public class DeckCharInfoPanel : MonoBehaviour
         skillName3.text = charSkillDB.name;
         skillPower3.text = (charSkillDB.atk * 0.01f).ToString() + "배";
         skillDesc3.text = charSkillDB.desc;
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        illustedName.text = "illusted by : @" + charDB.illust;
     }
 }

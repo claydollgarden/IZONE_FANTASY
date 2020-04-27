@@ -2,8 +2,8 @@
   {
   "id": 1,
   "name": "1스테이지",
-  "enemy": [5],
-  "position" : [5]
+  "enemy": [1,5],
+  "position" : [4,5]
   },
   {
   "id": 2,

@@ -7,4 +7,6 @@ public class TurnOrderIcon : MonoBehaviour
 {
     public SpriteRenderer charIcon;
     public SpriteRenderer charBG;
+
+    public int charId;
 }

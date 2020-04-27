@@ -2,10 +2,14 @@
   {
   "id": 1,
   "name": "NPC1",
-  "hp": 1500,
+  "hp": 100,
   "atk": 100,
   "def": 100,
   "speed": 100,
+  "gold": [500, 2000],
+  "item": 1,
+  "itempercent" : 50,
+  "exp": 45,
   "enemyskill": [1,2,3]
   },
   {
@@ -15,6 +19,10 @@
   "atk": 100,
   "def": 100,
   "speed": 100,
+  "gold": [500, 2000],
+  "item": 1,
+  "itempercent" : 50,
+  "exp": 45,
   "enemyskill": [1,2,3]
   },
   {
@@ -24,24 +32,36 @@
   "atk": 100,
   "def": 100,
   "speed": 100,
+  "gold": [500, 2000],
+  "item": 1,
+  "itempercent" : 50,
+  "exp": 45,
   "enemyskill": [1,2,3]
   },
   {
   "id": 4,
   "name": "NPC4",
-  "hp": 1500,
+  "hp": 100,
   "atk": 100,
   "def": 100,
   "speed": 100,
+  "gold": [500, 2000],
+  "item": 1,
+  "itempercent" : 50,
+  "exp": 45,
   "enemyskill": [1,2,3]
   },
   {
   "id": 5,
   "name": "NPC5",
-  "hp": 1500,
+  "hp": 100,
   "atk": 100,
   "def": 100,
   "speed": 100,
+  "gold": [500, 2000],
+  "item": 1,
+  "itempercent" : 50,
+  "exp": 45,
   "enemyskill": [1,2,3]
   },
   {
@@ -51,6 +71,10 @@
   "atk": 100,
   "def": 100,
   "speed": 100,
+  "gold": [500, 2000],
+  "item": 1,
+  "itempercent" : 50,
+  "exp": 45,
   "enemyskill": [1,2,3]
   },
   {
@@ -60,6 +84,10 @@
   "atk": 100,
   "def": 100,
   "speed": 100,
+  "gold": [500, 2000],
+  "item": 1,
+  "itempercent" : 50,
+  "exp": 45,
   "enemyskill": [1,2,3]
   },
   {
@@ -69,6 +97,10 @@
   "atk": 100,
   "def": 100,
   "speed": 100,
+  "gold": [500, 2000],
+  "item": 1,
+  "itempercent" : 50,
+  "exp": 45,
   "enemyskill": [1,2,3]
   },
   {
@@ -78,6 +110,10 @@
   "atk": 100,
   "def": 100,
   "speed": 100,
+  "gold": [500, 2000],
+  "item": 1,
+  "itempercent" : 50,
+  "exp": 45,
   "enemyskill": [1,2,3]
   },
   {
@@ -87,6 +123,10 @@
   "atk": 100,
   "def": 100,
   "speed": 100,
+  "gold": [500, 2000],
+  "item": 1,
+  "itempercent" : 50,
+  "exp": 45,
   "enemyskill": [1,2,3]
   },
   {
@@ -96,6 +136,10 @@
   "atk": 100,
   "def": 100,
   "speed": 100,
+  "gold": [500, 2000],
+  "item": 1,
+  "itempercent" : 50,
+  "exp": 45,
   "enemyskill": [1,2,3]
   },
   {
@@ -105,6 +149,10 @@
   "atk": 100,
   "def": 100,
   "speed": 100,
+  "gold": [500, 2000],
+  "item": 1,
+  "itempercent" : 50,
+  "exp": 45,
   "enemyskill": [1,2,3]
   },
   {
@@ -114,6 +162,10 @@
   "atk": 100,
   "def": 100,
   "speed": 100,
+  "gold": [500, 2000],
+  "item": 1,
+  "itempercent" : 50,
+  "exp": 45,
   "enemyskill": [1,2,3]
   },
   {
@@ -123,6 +175,10 @@
   "atk": 100,
   "def": 100,
   "speed": 100,
+  "gold": [500, 2000],
+  "item": 1,
+  "itempercent" : 50,
+  "exp": 45,
   "enemyskill": [1,2,3]
   },
   {
@@ -132,6 +188,10 @@
   "atk": 100,
   "def": 100,
   "speed": 100,
+  "gold": [500, 2000],
+  "item": 1,
+  "itempercent" : 50,
+  "exp": 45,
   "enemyskill": [1,2,3]
   }
 ]

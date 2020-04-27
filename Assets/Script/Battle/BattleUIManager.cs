@@ -17,12 +17,14 @@ public class BattleUIManager : MonoBehaviour
     public Toggle skipButton;
 
     public SkillSelectPanel skillSelectPanel;
+    public BattleResultPanel battleResultPanel;
 
     public List<TurnOrderIcon> turnOrderIcons = new List<TurnOrderIcon>();
 
     // Start is called before the first frame update
     void Start()
     {
+        battleResultPanel.gameObject.SetActive(false);
         skipButton.gameObject.SetActive(false);
     }
 
@@ -61,13 +63,22 @@ public class BattleUIManager : MonoBehaviour
 
         turnOrderIcon.charIcon.sprite = TurnOrderChar.charImage.sprite;
         turnOrderIcon.transform.localScale = new Vector3(250.0f, 250.0f, 1.0f);
+        turnOrderIcon.charId = TurnOrderChar.charId;
 
         turnOrderIcons.Add(turnOrderIcon);
     }
 
-    public void DeleteTurnOrderIcon()
+    public void DeleteTurnOrderIcon(TurnOrderIcon charIcon = null)
     {
-        Destroy(turnOrderIcons[0].gameObject);
-        turnOrderIcons.Remove(turnOrderIcons[0]);
+        if(charIcon == null)
+        {
+            Destroy(turnOrderIcons[0].gameObject);
+            turnOrderIcons.Remove(turnOrderIcons[0]);
+        }
+        else
+        {
+            Destroy(charIcon.gameObject);
+            turnOrderIcons.Remove(charIcon);
+        }
     }
 }

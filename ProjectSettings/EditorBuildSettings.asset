@@ -23,4 +23,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DeckScene.unity
     guid: 74c4c5f0268a97b42bcd8b8985d13487
+  - enabled: 1
+    path: Assets/Scenes/ReinforceScene.unity
+    guid: 705580d6c06a1444391ff89980f8eb53
+  - enabled: 1
+    path: Assets/Scenes/GachaScene.unity
+    guid: 89f45f9381a8633459a2035b40b89628
   m_configObjects: {}

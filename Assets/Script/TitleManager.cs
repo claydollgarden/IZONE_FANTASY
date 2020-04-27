@@ -30,7 +30,7 @@ public class TitleManager : MonoBehaviour
         isClicked = true;
         Color color = fullScreenImage.color;
 
-        float time = 1.0f;
+        float time = 0.5f;
         float elapsedTime = 0.0f;
 
         while (elapsedTime < time)

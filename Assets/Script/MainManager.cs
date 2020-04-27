@@ -18,6 +18,8 @@ public class MainManager : MonoBehaviour
 
     public BattleCharacter battleCharPrefab;
 
+    public List<BattleCharacter> playerList = new List<BattleCharacter>();
+
     public int currentSelectedChar = 0;
 
     private void Start()
@@ -35,6 +37,15 @@ public class MainManager : MonoBehaviour
         StartCoroutine(FadeOut());
     }
 
+    void Update()
+    {
+        if (Input.GetMouseButtonUp(0))
+        {
+            Debug.Log("BattleCharacterDie");
+            playerList[0].PlayCharacterAnimation("BattleCharacterDie");
+        }
+    }
+
     public void SetPlayerChar(int selectedMapId)
     {
         BattleCharacter charObj = Instantiate(battleCharPrefab);
@@ -44,6 +55,7 @@ public class MainManager : MonoBehaviour
         charObj.transform.position = mapTile[selectedMapId - 1].transform.position;
         charObj.transform.position = new Vector3(charObj.transform.position.x, charObj.transform.position.y, charObj.transform.position.z - 0.5f);
         charObj.transform.localScale = new Vector3(54.0f, 54.0f, 1.0f);
+        playerList.Add(charObj);
     }
 
     public void DeckButtonClicked()
@@ -66,7 +78,7 @@ public class MainManager : MonoBehaviour
     {
         if (isClicked == false)
         {
-            //StartCoroutine(FadeIn("GachaScene"));
+            StartCoroutine(FadeIn("GachaScene"));
         }
     }
 
@@ -82,7 +94,7 @@ public class MainManager : MonoBehaviour
     {
         if (isClicked == false)
         {
-            //StartCoroutine(FadeIn("ReinforceScene"));
+            StartCoroutine(FadeIn("ReinforceScene"));
         }
     }
 
@@ -91,7 +103,7 @@ public class MainManager : MonoBehaviour
         isClicked = true;
         Color color = fullScreenImage.color;
 
-        float time = 1.0f;
+        float time = 0.5f;
         float elapsedTime = 0.0f;
 
         while (elapsedTime < time)
@@ -119,7 +131,7 @@ public class MainManager : MonoBehaviour
 
         Color color = fullScreenImage.color;
 
-        float time = 1.0f;
+        float time = 0.5f;
         float elapsedTime = 0.0f;
 
         while (elapsedTime < time)

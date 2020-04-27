@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class BattleCharacter : MonoBehaviour
 {
+    public Animator charAnimator;
     public SpriteRenderer charImage;
     public SpriteRenderer hpImage;
 
@@ -21,6 +22,10 @@ public class BattleCharacter : MonoBehaviour
     public int charnumber;
 
     public int currentHp;
+
+    public int charExp;
+    public int charGold;
+    public int itemNumber;
 
     public bool isAlive = true;
 
@@ -43,7 +48,6 @@ public class BattleCharacter : MonoBehaviour
 
         var charDB = DataBaseManager.Instance.battleEnemyStatusDB.Get(charId, false);
 
-
         charName = charDB.name;
         hp = charDB.hp;
         currentHp = hp;
@@ -51,6 +55,19 @@ public class BattleCharacter : MonoBehaviour
         def = charDB.def;
         speed = charDB.speed;
         playerSide = false;
+        charExp = charDB.exp;
+        charGold = Random.Range(charDB.gold[0], charDB.gold[1]);
+
+        if(Random.Range(0, 100) < charDB.itempercent)
+        {
+            itemNumber = charDB.item;
+        }
+        else
+        {
+            itemNumber = 0;
+        }
+
+        Debug.Log("itemNumber : " + itemNumber);
 
         isAlive = SetCurrentHP(0);
 
@@ -69,12 +86,14 @@ public class BattleCharacter : MonoBehaviour
 
         var charDB = DataBaseManager.Instance.battleCharacterDB.Get(charId, false);
 
+        int level = (GameManager.Instance.userData.myCharactersList[charId] / 150);
+
         charName = charDB.name;
-        hp = charDB.hp;
+        hp = ((charDB.hp * (10 + level)) / 10);
         currentHp = hp;
-        atk = charDB.atk;
-        def = charDB.def;
-        speed = charDB.speed;
+        atk = ((charDB.atk * (10 + level)) / 10);
+        def = ((charDB.def * (10 + level)) / 10);
+        speed = ((charDB.speed * (10 + level)) / 10);
         charnumber = charDB.namenumber;
         playerSide = true;
 
@@ -88,27 +107,20 @@ public class BattleCharacter : MonoBehaviour
 
     public void SetBuffStatus(int buffNumber, int buffPower)
     {
-        Debug.Log("buffNumber : " + buffNumber);
-        Debug.Log("buffPower : " + buffPower);
-        Debug.Log("(buffPower / 100) : " + (buffPower / 100));
         switch ((BuffStatus)buffNumber)
         {
             case BuffStatus.HP:
                 hp = hp * buffPower / 100;
                 currentHp = hp;
-                Debug.Log("hp : " + hp);
                 break;
             case BuffStatus.ATK:
                 atk = atk * buffPower / 100;
-                Debug.Log("atk : " + atk);
                 break;
             case BuffStatus.DEF:
                 def = def * buffPower / 100;
-                Debug.Log("def : " + def);
                 break;
             case BuffStatus.SPD:
                 speed = speed * buffPower / 100;
-                Debug.Log("speed : " + speed);
                 break;
         }
     }
@@ -129,8 +141,18 @@ public class BattleCharacter : MonoBehaviour
             hpImage.transform.localScale = new Vector3 ((float)currentHp / hp, 1 , 1);
             return true;
         }
+        else
+        {
+            PlayCharacterAnimation("BattleCharacterDie");
+            isAlive = false;
+        }
 
         return false;
+    }
+
+    public void PlayCharacterAnimation(string animationName)
+    {
+        charAnimator.Play(animationName);
     }
 
     public void StartJumpChar(Vector3 start, Vector3 end)
@@ -164,12 +186,6 @@ public class BattleCharacter : MonoBehaviour
         var startPosition = new Vector3(start.x + margin, start.y, start.z);
 
         StartCoroutine(JumpCoroutine(startPosition, end));
-    }
-
-    public IEnumerator Idle()
-    {
-
-        yield return null;
     }
 
     public IEnumerator JumpCoroutine(Vector3 start, Vector3 end)

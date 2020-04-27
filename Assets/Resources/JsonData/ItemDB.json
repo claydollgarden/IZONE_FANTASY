@@ -1,0 +1,32 @@
+[
+  {
+  "id": 1,
+  "name": "키체인",
+  "imagepath": "KeyChain",
+  "charnumber":0
+  },
+  {
+  "id": 2,
+  "name": "응원봉",
+  "imagepath": "CheerStick",
+  "charnumber":0
+  },
+  {
+  "id": 3,
+  "name": "장원영",
+  "imagepath": "CardIcon",
+  "charnumber":1
+  },
+  {
+  "id": 4,
+  "name": "사쿠라",
+  "imagepath": "CardIcon",
+  "charnumber":2
+  },
+  {
+  "id": 5,
+  "name": "조유리",
+  "imagepath": "CardIcon",
+  "charnumber":3
+  }
+]

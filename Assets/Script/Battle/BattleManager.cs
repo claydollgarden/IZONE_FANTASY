@@ -13,7 +13,6 @@ public class BattleManager : MonoBehaviour
     public BuffDataManager buffDataManager;
     public BattleMapTile[] playerTile;
     public BattleMapTile[] enemyTile;
-    public DeckCharInfoPanel deckCharInfo;
 
     public List<BattleCharacter> enemyList = new List<BattleCharacter>();
     public List<BattleCharacter> playerList = new List<BattleCharacter>();
@@ -44,6 +43,11 @@ public class BattleManager : MonoBehaviour
 
     public SkillCard selectedCard;
 
+    public bool battleClearFlg = false;
+
+    public int gold = 0;
+    public int exp = 0;
+    public List<int> itemList = new List<int>();
 
     public enum BattleStatus
     {
@@ -61,7 +65,7 @@ public class BattleManager : MonoBehaviour
     void Start()
     {
         GameManager.Instance.currentSceneState = GameManager.SceneStatus.battle;
-        deckCharInfo.SetActiveObject(false);
+        battleUIManager.battleResultPanel.gameObject.SetActive(false);
         battleUIManager.ActiveButtons(true);
         buffIconViewObject.SetActive(true);
         buffDataManager.SetBuffDataBase();
@@ -103,7 +107,6 @@ public class BattleManager : MonoBehaviour
 
     public void SetPlayerChar(int selectedMapId)
     {
-        Debug.Log("SetPlayerChar, selectedMapId : " + selectedMapId);
         if (currentSelectedChar != 0)
         {
             BattleCharacter charObj = Instantiate(battleCharPrefab);
@@ -124,7 +127,7 @@ public class BattleManager : MonoBehaviour
 
     public void SetOrderTurn()
     {
-        charTurnList = allBattleCharList.OrderBy(x => x.speed).ToList();
+        charTurnList = allBattleCharList.OrderByDescending(x => x.speed).ToList();
         foreach (var turn in charTurnList) 
         {
             Debug.Log("턴 순서 : " + turn.charName);
@@ -152,7 +155,6 @@ public class BattleManager : MonoBehaviour
 
     public bool CheckSkillTarget(BattleCharacter targetChar)
     {
-        Debug.Log("targetChar.charPosition : " + targetChar.charPosition);
         for(int i = 0; i < selectedCard.skillData.target.Length; i++)
         {
             if( selectedCard.skillData.target[i] == targetChar.charPosition + 1)
@@ -191,7 +193,6 @@ public class BattleManager : MonoBehaviour
         {
             foreach(BuffDataObject buffData in myBuffList)
             {
-                Debug.Log("SetBuffStatus");
                 currentChar.SetBuffStatus(buffData.buffData.status, buffData.buffData.effect);
             }
         }
@@ -208,19 +209,13 @@ public class BattleManager : MonoBehaviour
             {
                 if (hit.collider != null && selectedCard != null)
                 {
-                    Debug.Log("BattleStatus.select");
                     if (hit.collider.GetComponent<BattleCharacter>() != null && CheckSkillTarget(hit.collider.GetComponent<BattleCharacter>()))
                     {
-                        Debug.Log("CheckSkillTarget");
                         targetChar = hit.collider.GetComponent<BattleCharacter>();
                     
                         InitMaptile();
 
                         battleStatus = BattleStatus.active;
-                    }
-                    else
-                    {
-                        Debug.Log("Missing Target");
                     }
                 }
                 else
@@ -322,15 +317,74 @@ public class BattleManager : MonoBehaviour
         SceneManager.LoadScene("DeckScene");
     }
 
-    public IEnumerator DamagedAnimation()
+    public bool CheckEnemeyAllDie()
     {
-        targetChar.charImage.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        targetChar.charImage.color = Color.white;
-        yield return new WaitForSeconds(0.1f);
-        targetChar.charImage.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        targetChar.charImage.color = Color.white;
+        foreach(BattleCharacter enemyCharacter in enemyList)
+        {
+            if(enemyCharacter.isAlive == true)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public bool CheckPlayerAllDie()
+    {
+        foreach (BattleCharacter playerCharacter in playerList)
+        {
+            if (playerCharacter.isAlive == true)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public void BattleResultButtonClicked()
+    {
+        if (battleStatus == BattleStatus.exit)
+        {
+            foreach(BattleCharacter player in playerList)
+            {
+                GameManager.Instance.userData.myCharactersList[player.charId] = GameManager.Instance.userData.myCharactersList[player.charId] + exp;
+            }
+
+            GameManager.Instance.userData.currentMoney = GameManager.Instance.userData.currentMoney + gold;
+
+            foreach(int item in itemList)
+            {
+                if(item < 3)
+                {
+                    GameManager.Instance.userData.myItemList[item] = GameManager.Instance.userData.myItemList[item] + 1;
+                }
+                else
+                {
+                    ItemDB itemObj = DataBaseManager.Instance.itemDB.Get(item);
+
+                    GameManager.Instance.userData.myCharactersList.Add(itemObj.charnumber, 0);
+                }
+
+            }
+
+            SceneManager.LoadScene("MainScene");
+        }
+        else
+        {
+            battleUIManager.skillSelectPanel.activeSkillPanel(true);
+            battleUIManager.battleResultPanel.gameObject.SetActive(false);
+        }
+    }
+
+    public void PauseButtonClicked()
+    {
+        battleUIManager.skillSelectPanel.activeSkillPanel(false);
+
+        battleUIManager.battleResultPanel.SetItemIcon(itemList, gold, exp);
+
+        battleUIManager.battleResultPanel.gameObject.SetActive(true);
     }
 
     IEnumerator StartBattle()
@@ -356,9 +410,12 @@ public class BattleManager : MonoBehaviour
                     break;
                 case BattleStatus.active:
                     yield return SkillActive();
-                    break;
+                    break; 
                 case BattleStatus.turnend:
                     yield return TurnEnd();
+                    break;
+                case BattleStatus.exit:
+                    yield return BattleEnd();
                     break;
             }
 
@@ -455,11 +512,7 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Enemy Attack");
             CheckEnemySkillTarget();
-
-            Debug.Log("Attack Target : " + targetChar.charName);
-
             InitMaptile();
 
             battleStatus = BattleStatus.active;
@@ -497,6 +550,7 @@ public class BattleManager : MonoBehaviour
         currentTurnChar.StartJumpChar(startPosition, targetChar.transform.position);
         yield return new WaitForSeconds(0.2f);
 
+        currentTurnChar.PlayCharacterAnimation("BattleCharacterAttack");
         yield return effectManager.LoadEffectAndPlay(selectedCard.skillData.effectpath, targetChar.transform.position);
 
         int damage = currentTurnChar.atk * (selectedCard.skillData.atk / 100);
@@ -505,28 +559,99 @@ public class BattleManager : MonoBehaviour
 
         battleUIManager.damageTextObject.StartDamageTextAnimation(damage, targetChar.transform.position);
 
+        if (targetChar.isAlive == false)
+        {
+            charTurnList.Remove(targetChar);
+
+            TurnOrderIcon targetOrderIcon = null;
+
+            foreach (TurnOrderIcon orderIcon in battleUIManager.turnOrderIcons)
+            {
+                if (orderIcon.charId == targetChar.charId)
+                {
+                    targetOrderIcon = orderIcon;
+                }
+            }
+
+            if(targetOrderIcon != null)
+            {
+                battleUIManager.DeleteTurnOrderIcon(targetOrderIcon);
+            }
+
+            if (targetChar.playerSide == false)
+            {
+                gold += targetChar.charGold;
+                exp += targetChar.charExp;
+                if(targetChar.itemNumber > 0)
+                {
+                    itemList.Add(targetChar.itemNumber);
+                }
+            }
+        }
+        else
+        {
+            targetChar.PlayCharacterAnimation("BattleCharacterDamage");
+        }
+
         currentTurnChar.EndJumpChar(targetChar.transform.position, startPosition);
-
-        yield return DamagedAnimation();
-
+        
         battleStatus = BattleStatus.turnend;
+
         yield return null;
     }
 
     IEnumerator TurnEnd()
     {
-        targetChar = null;
-        selectedCard = null;
-        currentTurnChar = charTurnList[1];
+        bool ClearCheck = false;
 
-        battleUIManager.AddTurnOrderIcon(charTurnList[0]);
-        battleUIManager.DeleteTurnOrderIcon();
+        if(currentTurnChar.playerSide)
+        {
+            ClearCheck = CheckEnemeyAllDie();
+        }
+        else 
+        {
+            ClearCheck = CheckPlayerAllDie();
+        }
 
-        charTurnList.Add(charTurnList[0]);
-        charTurnList.Remove(charTurnList[0]);
+        if (ClearCheck)
+        {
+            if (currentTurnChar.playerSide)
+            {
+                battleClearFlg = true;
+            }
+            else
+            {
+                battleClearFlg = false;
+            }
 
-        battleStatus = BattleStatus.nextturn;
+            battleUIManager.skillSelectPanel.activeSkillPanel(false);
+            battleUIManager.battleResultPanel.SetItemIcon(itemList, gold, exp);
+            battleUIManager.battleResultPanel.gameObject.SetActive(true);
+
+            battleStatus = BattleStatus.exit;
+        }
+        else
+        {
+            targetChar = null;
+            selectedCard = null;
+            currentTurnChar = charTurnList[1];
+
+            battleUIManager.AddTurnOrderIcon(charTurnList[0]);
+            battleUIManager.DeleteTurnOrderIcon();
+
+            charTurnList.Add(charTurnList[0]);
+            charTurnList.Remove(charTurnList[0]);
+
+            battleStatus = BattleStatus.nextturn;
+        }
+
+        yield return null;
+    }
+
+    IEnumerator BattleEnd()
+    {
 
         yield return null;
     }
 }
+
