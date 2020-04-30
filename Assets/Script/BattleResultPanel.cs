@@ -12,18 +12,25 @@ public class BattleResultPanel : MonoBehaviour
 
     public BattleItemIcon itemPrefab;
 
+    public List<int> itemIcons = new List<int>();
+
     public void SetItemIcon(List<int> battleItemIds, int gold,int exp)
     {
         goldText.text = gold.ToString();
         expText.text = exp.ToString();
 
-        foreach (int itemId in battleItemIds)
+        if(itemIcons != battleItemIds)
         {
-            BattleItemIcon itemObj = Instantiate(itemPrefab);
-            itemObj.transform.SetParent(itemViewContent.transform, false);
+            for(int i = itemIcons.Count; i < battleItemIds.Count; i++)
+            {
+                BattleItemIcon itemObj = Instantiate(itemPrefab);
+                itemObj.transform.SetParent(itemViewContent.transform, false);
 
-            var itemIconDB = DataBaseManager.Instance.itemDB.Get(itemId);
-            itemObj.iconImage.sprite = VResourceLoad.Load<Sprite>("UI/" + itemIconDB.imagepath);
+                var itemIconDB = DataBaseManager.Instance.itemDB.Get(battleItemIds[i]);
+                itemObj.iconImage.sprite = VResourceLoad.Load<Sprite>("UI/" + itemIconDB.imagepath);
+            }
+
+            itemIcons = battleItemIds;
         }
     }
 }

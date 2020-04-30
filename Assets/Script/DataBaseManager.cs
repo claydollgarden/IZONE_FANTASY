@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 using UnityEditor;
 using Newtonsoft.Json;
 
@@ -240,6 +241,7 @@ public class BattleEnemyCharStatusDB : DBBase
     public int def;
     public int speed;
     public int[] gold;
+    public int charnumber;
     public int item;
     public int itempercent;
     public int exp;
@@ -267,6 +269,7 @@ public class VisualNovelDB : DBBase
     public int[] leftchar;
     public int[] rightchar;
     public int[] screeneffect;
+    public int[] background;
 }
 
 public class SingleBuffDB : DBBase

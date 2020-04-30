@@ -24,9 +24,9 @@ public class NovelManager : MonoBehaviour
 
     public int scriptLine = 0;
 
-    public void SetBackGround(string imagePath)
+    public void SetBackGround(int backGroundNumber)
     {
-        var sprite = VResourceLoad.Load<Sprite>("BackGround/" + imagePath);
+        var sprite = VResourceLoad.Load<Sprite>("BackGround/Novel" + backGroundNumber.ToString());
 
         novelBackGround.sprite = sprite;
     }
@@ -104,6 +104,8 @@ public class NovelManager : MonoBehaviour
 
         novelText.text = currentVisualNovelDB.script[scriptLine];
 
+        SetBackGround(currentVisualNovelDB.background[scriptLine]);
+
         touchFlg = false;
     }
 
@@ -111,7 +113,7 @@ public class NovelManager : MonoBehaviour
     {
         Color color = fullScreenImage.color;
 
-        float time = 1.0f;
+        float time = 0.5f;
         float elapsedTime = 0.0f;
 
         while (elapsedTime < time)
@@ -135,7 +137,7 @@ public class NovelManager : MonoBehaviour
     {
         Color color = fullScreenImage.color;
 
-        float time = 1.0f;
+        float time = 0.5f;
         float elapsedTime = 0.0f;
 
         while (elapsedTime < time)

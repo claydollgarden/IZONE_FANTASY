@@ -48,16 +48,27 @@ public class ReinforceManager : MonoBehaviour
     {
         charIconSheet = GameManager.Instance.charIconSheet;
 
-        for (int i = 0; i < GameManager.Instance.userData.myCharactersList.Count; i++)
+        foreach (var myCharacter in GameManager.Instance.userData.myCharactersList.OrderBy(i => i.Key))
         {
             BattleCharIcon itemObj = Instantiate(myCharListPrefab);
-            itemObj.charId = GameManager.Instance.userData.myCharactersList.Keys.ToList()[i];
-            itemObj.charIcon.sprite = charIconSheet[itemObj.charId - 1];
-            itemObj.transform.SetParent(scrollViewContent.transform, false);
+            itemObj.charId = myCharacter.Key;
+            //itemObj.charId = GameManager.Instance.userData.myCharacters[i];
             itemObj.Init();
-            itemObj.SetDeckIcon(false);
+            itemObj.transform.SetParent(scrollViewContent.transform, false);
+            itemObj.charIcon.sprite = charIconSheet[itemObj.battleCharDB.namenumber - 1];
             myDeckList.Add(itemObj);
         }
+
+        //for (int i = 0; i < GameManager.Instance.userData.myCharactersList.Count; i++)
+        //{
+        //    BattleCharIcon itemObj = Instantiate(myCharListPrefab);
+        //    itemObj.charId = GameManager.Instance.userData.myCharactersList.Keys.ToList()[i];
+        //    itemObj.transform.SetParent(scrollViewContent.transform, false);
+        //    itemObj.Init();
+        //    itemObj.charIcon.sprite = charIconSheet[itemObj. - 1];
+        //    itemObj.SetDeckIcon(false);
+        //    myDeckList.Add(itemObj);
+        //}
 
         item1 = GameManager.Instance.userData.myItemList[1];
         item2 = GameManager.Instance.userData.myItemList[2];

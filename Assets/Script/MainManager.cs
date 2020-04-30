@@ -39,17 +39,18 @@ public class MainManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonUp(0))
-        {
-            Debug.Log("BattleCharacterDie");
-            playerList[0].PlayCharacterAnimation("BattleCharacterDie");
-        }
+        //if (Input.GetMouseButtonUp(0))
+        //{
+        //    Debug.Log("BattleCharacterDie");
+        //    playerList[0].PlayCharacterAnimation("BattleCharacterDie");
+        //}
     }
 
     public void SetPlayerChar(int selectedMapId)
     {
         BattleCharacter charObj = Instantiate(battleCharPrefab);
-        charObj.playerCharInit(charSheet[currentSelectedChar - 1], currentSelectedChar);
+        charObj.playerCharInit(currentSelectedChar);
+        charObj.SetCharSpriteSet(charSheet[charObj.charnumber - 1]);
 
         charObj.charPosition = selectedMapId;
         charObj.transform.position = mapTile[selectedMapId - 1].transform.position;

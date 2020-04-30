@@ -20,6 +20,11 @@ public class MapManager : MonoBehaviour
         //}
     }
 
+    public void BackButtonClicked()
+    {
+        SceneManager.LoadScene("MapScene");
+    }
+
     public void MapButtonClick(Text mapName)
     {
         GameManager.Instance.currentBattleMapData = DataBaseManager.Instance.fieldSymbolDB.Get(int.Parse(mapName.text));
@@ -36,7 +41,7 @@ public class MapManager : MonoBehaviour
     {
         Color color = fullScreenImage.color;
 
-        float time = 1.0f;
+        float time = 0.5f;
         float elapsedTime = 0.0f;
 
         while (elapsedTime < time)
@@ -60,7 +65,7 @@ public class MapManager : MonoBehaviour
     {
         Color color = fullScreenImage.color;
 
-        float time = 1.0f;
+        float time = 0.5f;
         float elapsedTime = 0.0f;
 
         while (elapsedTime < time)

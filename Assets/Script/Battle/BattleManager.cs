@@ -83,8 +83,8 @@ public class BattleManager : MonoBehaviour
         {
             BattleCharacter charObj = Instantiate(battleCharPrefab);
 
-            charObj.enemyCharInit(charSheet[GameManager.Instance.currentBattleMapData.enemy[i] - 1], GameManager.Instance.currentBattleMapData.enemy[i]);
-
+            charObj.enemyCharInit(GameManager.Instance.currentBattleMapData.enemy[i]);
+            charObj.SetCharSpriteSet(charSheet[charObj.charnumber - 1]);
             charObj.charPosition = GameManager.Instance.currentBattleMapData.position[i];
             charObj.transform.position = enemyTile[charObj.charPosition].transform.position;
             charObj.transform.position = new Vector3(charObj.transform.position.x, charObj.transform.position.y, charObj.transform.position.z - 0.5f);
@@ -110,7 +110,8 @@ public class BattleManager : MonoBehaviour
         if (currentSelectedChar != 0)
         {
             BattleCharacter charObj = Instantiate(battleCharPrefab);
-            charObj.playerCharInit(charSheet[currentSelectedChar - 1], currentSelectedChar);
+            charObj.playerCharInit(currentSelectedChar);
+            charObj.SetCharSpriteSet(charSheet[charObj.charnumber - 1]);
 
             charObj.charPosition = selectedMapId;
             charObj.transform.SetParent(charObjects.transform);
@@ -243,7 +244,9 @@ public class BattleManager : MonoBehaviour
             {
                 currentSelectedChar = GameManager.Instance.userData.myDeck[currentDeckNumber][i];
 
-                buffDataManager.CheckBuffCharNumber(currentSelectedChar);
+                int charNumber = DataBaseManager.Instance.battleCharacterDB.Get(currentSelectedChar).namenumber;
+
+                buffDataManager.CheckBuffCharNumber(charNumber);
 
                 SetPlayerChar(GameManager.Instance.userData.myDeckPosition[currentDeckNumber][i]);
 
@@ -585,6 +588,13 @@ public class BattleManager : MonoBehaviour
                 if(targetChar.itemNumber > 0)
                 {
                     itemList.Add(targetChar.itemNumber);
+
+                    var itemIconDB = DataBaseManager.Instance.itemDB.Get(targetChar.itemNumber);
+                    BattleItemIcon itemPrefab = VResourceLoad.Load<BattleItemIcon>("Perfabs/" + "ItemDrop");
+                    BattleItemIcon itemObj = Instantiate(itemPrefab);
+                    itemObj.transform.position = targetChar.transform.position;
+                    itemObj.iconSprite.sprite = VResourceLoad.Load<Sprite>("UI/" + itemIconDB.imagepath);
+                    itemObj.StartAnimation();
                 }
             }
         }
@@ -623,6 +633,8 @@ public class BattleManager : MonoBehaviour
             {
                 battleClearFlg = false;
             }
+
+            yield return new WaitForSeconds(1.0f);
 
             battleUIManager.skillSelectPanel.activeSkillPanel(false);
             battleUIManager.battleResultPanel.SetItemIcon(itemList, gold, exp);

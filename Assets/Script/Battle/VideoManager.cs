@@ -10,12 +10,13 @@ public class VideoManager : MonoBehaviour
     public void Play(string VideoPath)
     {
         vp.targetCameraAlpha = 1.0f;
-        //vp.url = "Assets/Resources/CharEffect/Hitomi/hitomi1.mp4";
-        vp.url = "Assets/Resources/CharEffect/" + VideoPath + ".mp4";
+        vp.clip = VResourceLoad.Load<VideoClip>("CharEffect/" + VideoPath);
+        //vp.clip = "Assets/Resources/CharEffect/" + VideoPath + ".mp4";
 
         if (vp.url == null)
         {
-            vp.url = "Assets/Resources/CharEffect/default.mp4";
+            vp.clip = VResourceLoad.Load<VideoClip>("CharEffect/" + "default");
+            //vp.url = "Assets/Resources/CharEffect/default.mp4";
         }
 
         vp.Play();

@@ -39,10 +39,9 @@ public class BattleCharacter : MonoBehaviour
         SPD
     }
 
-    public void enemyCharInit(Sprite image, int charNumber)
+    public void enemyCharInit(int enemyCharNumber)
     {
-        charImage.sprite = image;
-        charId = charNumber;
+        charId = enemyCharNumber;
         charCollider.enabled = false;
         hpImage.transform.localPosition = new Vector3(1.5f, 0, 0);
 
@@ -54,20 +53,40 @@ public class BattleCharacter : MonoBehaviour
         atk = charDB.atk;
         def = charDB.def;
         speed = charDB.speed;
+        charnumber = charDB.charnumber;
         playerSide = false;
         charExp = charDB.exp;
         charGold = Random.Range(charDB.gold[0], charDB.gold[1]);
 
         if(Random.Range(0, 100) < charDB.itempercent)
         {
-            itemNumber = charDB.item;
+            var itemIconDB = DataBaseManager.Instance.itemDB.Get(charDB.item);
+
+            bool getFlg = false;
+
+            foreach(int charKey in GameManager.Instance.userData.myCharactersList.Keys)
+            {
+                Debug.Log("charKey : " + charKey);
+                if (charKey == itemIconDB.charnumber)
+                {
+                    getFlg = true;
+                }
+            }
+
+            if(getFlg)
+            {
+                itemNumber = 2;
+            }
+            else
+            {
+                itemNumber = charDB.item;
+            }
+            Debug.Log("itemNumber : " + itemNumber);
         }
         else
         {
             itemNumber = 0;
         }
-
-        Debug.Log("itemNumber : " + itemNumber);
 
         isAlive = SetCurrentHP(0);
 
@@ -77,9 +96,8 @@ public class BattleCharacter : MonoBehaviour
         }
     }
 
-    public void playerCharInit(Sprite image, int charNumber)
+    public void playerCharInit(int charNumber)
     {
-        charImage.sprite = image;
         charId = charNumber;
         charCollider.enabled = false;
         hpImage.transform.localPosition = new Vector3(-1.5f, 0, 0);
@@ -103,6 +121,11 @@ public class BattleCharacter : MonoBehaviour
         {
             battleEnemySkills.Add(DataBaseManager.Instance.battleEnemySkillDB.Get(charDB.skill[i]));
         }
+    }
+
+    public void SetCharSpriteSet(Sprite image)
+    {
+        charImage.sprite = image;
     }
 
     public void SetBuffStatus(int buffNumber, int buffPower)

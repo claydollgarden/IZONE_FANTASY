@@ -48,16 +48,29 @@ public class DeckManager : MonoBehaviour
         charIconSheet = GameManager.Instance.charIconSheet;
 
         //for (int i = 0; i < GameManager.Instance.userData.myCharacters.Count; i++)
-        for (int i = 0; i < GameManager.Instance.userData.myCharactersList.Count; i++)
+
+        foreach(var myCharacter in GameManager.Instance.userData.myCharactersList.OrderBy(i => i.Key))
         {
             BattleCharIcon itemObj = Instantiate(myCharListPrefab);
-            itemObj.charId = GameManager.Instance.userData.myCharactersList.Keys.ToList()[i];
+            itemObj.charId = myCharacter.Key;
             //itemObj.charId = GameManager.Instance.userData.myCharacters[i];
-            itemObj.charIcon.sprite = charIconSheet[itemObj.charId - 1];
-            itemObj.transform.SetParent(scrollViewContent.transform, false);
             itemObj.Init(GameManager.Instance.userData.myDeck[0]);
+            itemObj.transform.SetParent(scrollViewContent.transform, false);
+            itemObj.charIcon.sprite = charIconSheet[itemObj.battleCharDB.namenumber - 1];
             myDeckList.Add(itemObj);
+            
         }
+
+        //for (int i = 0; i < GameManager.Instance.userData.myCharactersList.Count; i++)
+        //{
+        //    BattleCharIcon itemObj = Instantiate(myCharListPrefab);
+        //    itemObj.charId = GameManager.Instance.userData.myCharactersList.Keys.ToList()[i];
+        //    //itemObj.charId = GameManager.Instance.userData.myCharacters[i];
+        //    itemObj.Init(GameManager.Instance.userData.myDeck[0]);
+        //    itemObj.transform.SetParent(scrollViewContent.transform, false);
+        //    itemObj.charIcon.sprite = charIconSheet[itemObj.battleCharDB.namenumber - 1];
+        //    myDeckList.Add(itemObj);
+        //}
 
         currentDeckNumber = 0;
         currentSelectedCharNumber = 0;
@@ -85,7 +98,9 @@ public class DeckManager : MonoBehaviour
                 {
                     SetPlayerChar(hit.collider.GetComponent<BattleMapTile>().mapId);
 
-                    buffDataManager.CheckBuffCharNumber(currentSelectedChar);
+                    int charNumber = DataBaseManager.Instance.battleCharacterDB.Get(currentSelectedChar).namenumber;
+
+                    buffDataManager.CheckBuffCharNumber(charNumber);
 
                     activeBuffDBList = buffDataManager.GetCurrentBuffList();
 
@@ -168,7 +183,9 @@ public class DeckManager : MonoBehaviour
             {
                 currentSelectedChar = GameManager.Instance.userData.myDeck[currentDeckNumber][i];
 
-                buffDataManager.CheckBuffCharNumber(currentSelectedChar);
+                int charNumber = DataBaseManager.Instance.battleCharacterDB.Get(currentSelectedChar).namenumber;
+
+                buffDataManager.CheckBuffCharNumber(charNumber);
 
                 SetPlayerChar(GameManager.Instance.userData.myDeckPosition[currentDeckNumber][i]);
 
@@ -226,7 +243,8 @@ public class DeckManager : MonoBehaviour
             checkSameMapPosition(selectedMapId);
 
             BattleCharacter charObj = Instantiate(battleCharPrefab);
-            charObj.playerCharInit(charSheet[currentSelectedChar - 1], currentSelectedChar);
+            charObj.playerCharInit(currentSelectedChar);
+            charObj.SetCharSpriteSet(charSheet[charObj.charnumber - 1]);
 
             charObj.charPosition = selectedMapId;
             charObj.transform.SetParent(charObjects.transform);
