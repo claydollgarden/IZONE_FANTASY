@@ -7,9 +7,20 @@ using UnityEngine.SceneManagement;
 public class MapManager : MonoBehaviour
 {
     public SpriteRenderer fullScreenImage;
+    public GameObject[] mapObjects;
 
     private void Start()
     {
+        for(int i = 0; i < mapObjects.Length; i++)
+        {
+            mapObjects[i].SetActive(false);
+        }
+
+        for(int i = 0; i < GameManager.Instance.userData.clearedQuests + 1; i++)
+        {
+            mapObjects[i].SetActive(true);
+        }
+
         StartCoroutine(FadeOut());
 
         //if(GameManager.Instance.userData.questStep == 0)
@@ -22,14 +33,24 @@ public class MapManager : MonoBehaviour
 
     public void BackButtonClicked()
     {
-        SceneManager.LoadScene("MapScene");
+        SceneManager.LoadScene("MainScene");
     }
 
-    public void MapButtonClick(Text mapName)
+    public void MapButtonClick(string mapName)
     {
-        GameManager.Instance.currentBattleMapData = DataBaseManager.Instance.fieldSymbolDB.Get(int.Parse(mapName.text));
+        string[] splitArray = mapName.Split(char.Parse(","));
+        GameManager.Instance.currentBattleMapData = DataBaseManager.Instance.fieldSymbolDB.Get(int.Parse(splitArray[0]));
 
-        SceneManager.LoadScene("BattleScene");
+        if(splitArray[1] != "0")
+        {
+            GameManager.Instance.novelNumber = int.Parse(splitArray[1]);
+            StartCoroutine(FadeIn("NovelScene"));
+        }
+        else
+        {
+           StartCoroutine(FadeIn("BattleScene"));
+        }
+
     }
 
     public void NovelButtonClick()

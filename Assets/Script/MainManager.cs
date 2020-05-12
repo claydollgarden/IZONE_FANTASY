@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -22,10 +23,27 @@ public class MainManager : MonoBehaviour
 
     public int currentSelectedChar = 0;
 
+    public List<SingleBuffDB> currentBuffDB = new List<SingleBuffDB>();
+    public BuffListIconObject buffListIconPrefab;
+    public GameObject buffIconViewContent;
+    public GameObject buffListView;
+
+    public CardListObject cardListObjectPrefab;
+    public GameObject cardListViewContent;
+    public GameObject cardListView;
+
+
     private void Start()
     {
         charSheet = GameManager.Instance.charSheet;
         charIconSheet = GameManager.Instance.charIconSheet;
+
+        if (GameManager.Instance.userData.myCharactersList == null)
+        {
+            GameManager.Instance.userData.SetAsDefault();
+        }
+
+        Debug.Log("GameManager.Instance.userData.myCharactersList : " + GameManager.Instance.userData.myCharactersList.Count);
 
         for (int i = 0; i < GameManager.Instance.userData.myDeck[0].Count; i++)
         {
@@ -33,7 +51,11 @@ public class MainManager : MonoBehaviour
             SetPlayerChar(GameManager.Instance.userData.myDeckPosition[0][i]);
         }
 
+        SetBuffList();
+        SetCardList();
         GameManager.Instance.currentSceneState = GameManager.SceneStatus.main;
+
+        buffListView.SetActive(false);
         StartCoroutine(FadeOut());
     }
 
@@ -44,6 +66,51 @@ public class MainManager : MonoBehaviour
         //    Debug.Log("BattleCharacterDie");
         //    playerList[0].PlayCharacterAnimation("BattleCharacterDie");
         //}
+    }
+
+    public void CloseBuffListView()
+    {
+        buffListView.SetActive(false);
+    }
+
+    public void CloseCardListView()
+    {
+        cardListView.SetActive(false);
+    }
+
+    public void SetBuffList()
+    {
+        currentBuffDB = DataBaseManager.Instance.singleBuffDB.GetAll();
+
+        for (int i = 0; i < currentBuffDB.Count; i++)
+        {
+            BuffListIconObject itemObj = Instantiate(buffListIconPrefab);
+            itemObj.SetIcon(currentBuffDB[i]);
+            itemObj.transform.SetParent(buffIconViewContent.transform, false);
+        }
+    }
+
+    public void SetCardList()
+    {
+        List<BattleCharacterDB> currentCharDB = DataBaseManager.Instance.battleCharacterDB.GetAll();
+        List<int> myCharDB = GameManager.Instance.userData.myCharactersList.Keys.ToList();
+
+        for (int i = 0; i < currentCharDB.Count; i++)
+        {
+            CardListObject itemObj = Instantiate(cardListObjectPrefab);
+            var sprite = VResourceLoad.Load<Sprite>("CharThumbnail/" + currentCharDB[i].id);
+            itemObj.cardImage.sprite = sprite;
+            itemObj.cardImage.color = Color.gray;
+
+            for (int j = 0; j < myCharDB.Count; j++)
+            {
+                if(myCharDB[j] == currentCharDB[i].id)
+                {
+                    itemObj.cardImage.color = Color.white;
+                }
+            }
+            itemObj.transform.SetParent(cardListViewContent.transform, false);
+        }
     }
 
     public void SetPlayerChar(int selectedMapId)
@@ -87,7 +154,8 @@ public class MainManager : MonoBehaviour
     {
         if (isClicked == false)
         {
-            StartCoroutine(FadeIn("NovelScene"));
+            DataBaseManager.Instance.saveData.Save();
+            //StartCoroutine(FadeIn("NovelScene"));
         }
     }
 
@@ -97,6 +165,16 @@ public class MainManager : MonoBehaviour
         {
             StartCoroutine(FadeIn("ReinforceScene"));
         }
+    }
+
+    public void BuffListButtonClicked()
+    {
+        buffListView.SetActive(true);
+    }
+
+    public void CardListButtonClicked()
+    {
+        cardListView.SetActive(true);
     }
 
     public IEnumerator FadeOut()

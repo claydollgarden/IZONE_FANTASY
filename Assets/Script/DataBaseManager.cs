@@ -64,8 +64,9 @@ public class SaveData
         //user local data
         if(PlayerPrefsUtil.Load<UserData>() != null)
         {
+            userData = PlayerPrefsUtil.Load<UserData>();
             Debug.Log("PlayerPrefsUtil true");
-            userData.SetAsDefault();
+            //userData.SetAsDefault();
         }
         else
         {
@@ -77,6 +78,7 @@ public class SaveData
     public void Save()
     {
         PlayerPrefsUtil.Commit(userData);
+        Debug.Log("userData Save");
     }
 
     public void Delete()
@@ -126,21 +128,17 @@ public interface IUserLocalData
 [Serializable]
 public class UserData : IUserLocalData
 {
-    public struct CharStatus
-    {
-        int level;
-
-    }
     public string name;
     public int userId;
 
     public int questStep;
+    public int clearedQuests;
+    public int scenarioNumber;
 
     public int currentMoney;
 
     public Dictionary<int, int> myCharactersList;
     public Dictionary<int, int> myItemList;
-    public List<int> clearedQuests;
 
     public List<List<int>> myDeck;
     public List<List<int>> myDeckPosition;
@@ -149,11 +147,16 @@ public class UserData : IUserLocalData
     {
         name = "";
         userId = 0;
-        questStep = 0;
+
+        questStep = 1;
+        clearedQuests = 0;
+        scenarioNumber = 0;
+
         currentMoney = 5000;
-        myCharactersList = new Dictionary<int, int>() { { 4, 146 }, { 9, 482 } };
+
+        myCharactersList = new Dictionary<int, int>() { { 4, 0 }, { 9, 0 } };
         myItemList = new Dictionary<int, int>() { { 1, 3 }, { 2, 5 } };
-        clearedQuests = new List<int>();
+
         myDeck = new List<List<int>> { new List<int>() { 4, 9 }, new List<int>() { }, new List<int>() { }, new List<int>() { }, new List<int>() { } };
         myDeckPosition = new List<List<int>> { new List<int>() { 2, 8 }, new List<int>() { }, new List<int>() { }, new List<int>() { }, new List<int>() { } };
     }
@@ -252,9 +255,11 @@ public class BattleEnemyCharStatusDB : DBBase
 public class BattleEnemySkillDB : DBBase
 {
     public string name;
+    public AttackType skilltype;
     public int atk;
     public int[] target;
     public int cooltime;
+    public int maxcooltime;
     public string effectpath;
     public string moviepath;
     public string iconpath;
@@ -265,6 +270,8 @@ public class BattleEnemySkillDB : DBBase
 public class VisualNovelDB : DBBase
 {
     public string[] script;
+    public int scenarionumber;
+    public string comebackscene;
     public int[] focuschar;
     public int[] leftchar;
     public int[] rightchar;
@@ -281,6 +288,7 @@ public class SingleBuffDB : DBBase
     public int count;
     public int checkcount;
     public string iconpath;
+    public string illust;
     public string description;
 }
 
@@ -289,4 +297,12 @@ public class ItemDB : DBBase
     public string name;
     public string imagepath;
     public int charnumber;
+}
+
+public enum AttackType
+{
+    Melee = 0,
+    Range,
+    Magic,
+    Heal
 }

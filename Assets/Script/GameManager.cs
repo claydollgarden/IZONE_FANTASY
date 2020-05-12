@@ -8,6 +8,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     public UserData userData;
 
     public SceneStatus currentSceneState = 0;
+    public int novelNumber = 0;
 
     public Sprite[] charSheet;
     public Sprite[] charIconSheet;

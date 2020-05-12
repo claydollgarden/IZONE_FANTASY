@@ -17,6 +17,17 @@ public class SkillSelectPanel : MonoBehaviour
         {
             skillCards[i].SelectedCard(flg);
         }
+    }
 
+    public void SkillCoolTimeSet()
+    {
+        for (int i = 0; i < skillCards.Length; i++)
+        {
+            if(skillCards[i].skillData.cooltime != 0)
+            {
+                skillCards[i].skillData.cooltime--;
+                skillCards[i].SetSkillCoolTime(skillCards[i].skillData.cooltime);
+            }
+        }
     }
 }

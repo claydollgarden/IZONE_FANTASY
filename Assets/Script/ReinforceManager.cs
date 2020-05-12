@@ -199,6 +199,8 @@ public class ReinforceManager : MonoBehaviour
         atkText.text = (currentSelectedCharDB.atk * (10 + level) / 10).ToString();
         defText.text = (currentSelectedCharDB.def * (10 + level) / 10).ToString();
         speedText.text = (currentSelectedCharDB.speed * (10 + level) / 10).ToString();
+
+        expImage.transform.localScale = new Vector3((float)(GameManager.Instance.userData.myCharactersList[currentCharNumber] % 150) / 150, 1.0f, 1.0f);
     }
 
     public IEnumerator FadeOut()

@@ -22,7 +22,7 @@ public class NovelManager : MonoBehaviour
     //대사, 화면에뜰 사람수, 포커스중인 사람, 왼쪽사람번호, 왼쪽사람 스프라이트 번호, 오른쪽사람번호, 오른쪽사람 스프라이트 번호, 화면효과
     public List<string[]> scenarioText = new List<string[]>();
 
-    public int scriptLine = 0;
+    public int scriptLine;
 
     public void SetBackGround(int backGroundNumber)
     {
@@ -34,10 +34,11 @@ public class NovelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        scriptLine = 0;
         leftChar.enabled = false;
         rightChar.enabled = false;
 
-        currentVisualNovelDB = DataBaseManager.Instance.visualNovelDB.Get(GameManager.Instance.userData.questStep + 1);
+        currentVisualNovelDB = DataBaseManager.Instance.visualNovelDB.Get(GameManager.Instance.novelNumber);
         SetNovelData();
 
         StartCoroutine(FadeOut());
@@ -66,7 +67,7 @@ public class NovelManager : MonoBehaviour
 
             if (currentVisualNovelDB.script.Length <= scriptLine)
             {
-                StartCoroutine(FadeIn("MapScene"));
+                StartCoroutine(FadeIn(currentVisualNovelDB.comebackscene));
             }
 
             SetNovelData();
@@ -155,6 +156,8 @@ public class NovelManager : MonoBehaviour
 
         color.a = 1.0f;
         fullScreenImage.color = color;
+
+        GameManager.Instance.userData.scenarioNumber = currentVisualNovelDB.scenarionumber;
 
         if (changescene != "")
         {

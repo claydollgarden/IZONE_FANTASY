@@ -7,12 +7,9 @@ public class DamageTextObject : MonoBehaviour
     public Sprite[] DamageNumber;
     public DamageText[] damageText;
 
-    private void Start()
-    {
-        HideText();
-    }
     public void StartDamageTextAnimation(int damage, Vector3 position)
     {
+        HideText();
         StartCoroutine(SetNumber(damage, position));
     }
 
@@ -47,8 +44,7 @@ public class DamageTextObject : MonoBehaviour
 
             yield return null;
         }
-
-        HideText();
+        Destroy(gameObject);
     }
 
     public void HideText()

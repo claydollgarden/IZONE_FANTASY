@@ -94,7 +94,7 @@ public class DeckManager : MonoBehaviour
 
             if (hit.collider != null)
             {
-                if(hit.collider.GetComponent<BattleMapTile>() != null)
+                if(hit.collider.GetComponent<BattleMapTile>() != null && currentSelectedChar > 0)
                 {
                     SetPlayerChar(hit.collider.GetComponent<BattleMapTile>().mapId);
 

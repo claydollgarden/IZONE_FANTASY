@@ -14,6 +14,8 @@ public class BattleManager : MonoBehaviour
     public BattleMapTile[] playerTile;
     public BattleMapTile[] enemyTile;
 
+    public CameraShake cameraShake;
+
     public List<BattleCharacter> enemyList = new List<BattleCharacter>();
     public List<BattleCharacter> playerList = new List<BattleCharacter>();
     public List<BattleCharacter> allBattleCharList = new List<BattleCharacter>();
@@ -21,8 +23,8 @@ public class BattleManager : MonoBehaviour
     public List<BuffDataObject> myBuffList = new List<BuffDataObject>();
 
     public BuffDataObject buffIconPrefab;
-
     public BattleCharacter battleCharPrefab;
+    public BulletObject bulletPrefab;
 
     public int currentSelectedChar;
     public int currentDeckNumber;
@@ -137,13 +139,16 @@ public class BattleManager : MonoBehaviour
 
     public void SkillCardClicked(SkillCard cardInfo)
     {
-        InitMaptile();
-        battleUIManager.skillSelectPanel.ActiveSkillCards(false);
-        selectedCard = cardInfo;
+        if(cardInfo.skillData.cooltime == 0)
+        {
+            InitMaptile();
+            battleUIManager.skillSelectPanel.ActiveSkillCards(false);
+            selectedCard = cardInfo;
 
-        SetTargetIcon(cardInfo.skillData.target);
+            SetTargetIcon(cardInfo.skillData.target);
 
-        cardInfo.SelectedCard(true);
+            cardInfo.SelectedCard(true);
+        }
     }
 
     public void SetTargetIcon(int[] Targets)
@@ -154,11 +159,11 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public bool CheckSkillTarget(BattleCharacter targetChar)
+    public bool CheckSkillTarget(BattleCharacter skillTargetChar)
     {
         for(int i = 0; i < selectedCard.skillData.target.Length; i++)
         {
-            if( selectedCard.skillData.target[i] == targetChar.charPosition + 1)
+            if( selectedCard.skillData.target[i] == skillTargetChar.charPosition + 1)
             {
                 return true;
             }
@@ -372,7 +377,7 @@ public class BattleManager : MonoBehaviour
 
             }
 
-            SceneManager.LoadScene("MainScene");
+            SceneManager.LoadScene("MapScene");
         }
         else
         {
@@ -388,6 +393,75 @@ public class BattleManager : MonoBehaviour
         battleUIManager.battleResultPanel.SetItemIcon(itemList, gold, exp);
 
         battleUIManager.battleResultPanel.gameObject.SetActive(true);
+    }
+
+    public void TargetsDamaged()
+    {
+        List<BattleCharacter> playsideList = currentTurnChar.playerSide ? enemyList : playerList;
+
+        for (int j = 0; j < selectedCard.skillData.target.Length; j++)
+        {
+            for (int k = 0; k < playsideList.Count; k++)
+            {
+                if (selectedCard.skillData.target[j] == playsideList[k].charPosition + 1 && playsideList[k].isAlive)
+                {
+                    Debug.Log("targetChar : " + playsideList[k].name);
+                    targetChar = playsideList[k];
+                    Damaged();
+                }
+            }
+        }
+    }
+
+    public void Damaged()
+    {
+        int damage = currentTurnChar.atk * (selectedCard.skillData.atk / 100);
+
+        targetChar.SetCurrentHP(damage);
+
+        DamageTextObject damageText = Instantiate(battleUIManager.damageTextObject);
+        damageText.StartDamageTextAnimation(damage, targetChar.transform.position);
+
+        if (targetChar.isAlive == false)
+        {
+            charTurnList.Remove(targetChar);
+
+            TurnOrderIcon targetOrderIcon = null;
+
+            foreach (TurnOrderIcon orderIcon in battleUIManager.turnOrderIcons)
+            {
+                if (orderIcon.charId == targetChar.charId)
+                {
+                    targetOrderIcon = orderIcon;
+                }
+            }
+
+            if (targetOrderIcon != null)
+            {
+                battleUIManager.DeleteTurnOrderIcon(targetOrderIcon);
+            }
+
+            if (targetChar.playerSide == false)
+            {
+                gold += targetChar.charGold;
+                exp += targetChar.charExp;
+                if (targetChar.itemNumber > 0)
+                {
+                    itemList.Add(targetChar.itemNumber);
+
+                    var itemIconDB = DataBaseManager.Instance.itemDB.Get(targetChar.itemNumber);
+                    BattleItemIcon itemPrefab = VResourceLoad.Load<BattleItemIcon>("Perfabs/" + "ItemDrop");
+                    BattleItemIcon itemObj = Instantiate(itemPrefab);
+                    itemObj.transform.position = targetChar.transform.position;
+                    itemObj.iconSprite.sprite = VResourceLoad.Load<Sprite>("UI/" + itemIconDB.imagepath);
+                    itemObj.StartAnimation();
+                }
+            }
+        }
+        else
+        {
+            targetChar.PlayCharacterAnimation("BattleCharacterDamage");
+        }
     }
 
     IEnumerator StartBattle()
@@ -548,63 +622,51 @@ public class BattleManager : MonoBehaviour
             videoManager.Stop();
         }
 
+        AttackType currentCharAttackType = selectedCard.skillData.skilltype;
+
         var startPosition = currentTurnChar.transform.position;
-
-        currentTurnChar.StartJumpChar(startPosition, targetChar.transform.position);
-        yield return new WaitForSeconds(0.2f);
-
-        currentTurnChar.PlayCharacterAnimation("BattleCharacterAttack");
-        yield return effectManager.LoadEffectAndPlay(selectedCard.skillData.effectpath, targetChar.transform.position);
-
-        int damage = currentTurnChar.atk * (selectedCard.skillData.atk / 100);
-
-        targetChar.SetCurrentHP(damage);
-
-        battleUIManager.damageTextObject.StartDamageTextAnimation(damage, targetChar.transform.position);
-
-        if (targetChar.isAlive == false)
-        {
-            charTurnList.Remove(targetChar);
-
-            TurnOrderIcon targetOrderIcon = null;
-
-            foreach (TurnOrderIcon orderIcon in battleUIManager.turnOrderIcons)
-            {
-                if (orderIcon.charId == targetChar.charId)
-                {
-                    targetOrderIcon = orderIcon;
-                }
-            }
-
-            if(targetOrderIcon != null)
-            {
-                battleUIManager.DeleteTurnOrderIcon(targetOrderIcon);
-            }
-
-            if (targetChar.playerSide == false)
-            {
-                gold += targetChar.charGold;
-                exp += targetChar.charExp;
-                if(targetChar.itemNumber > 0)
-                {
-                    itemList.Add(targetChar.itemNumber);
-
-                    var itemIconDB = DataBaseManager.Instance.itemDB.Get(targetChar.itemNumber);
-                    BattleItemIcon itemPrefab = VResourceLoad.Load<BattleItemIcon>("Perfabs/" + "ItemDrop");
-                    BattleItemIcon itemObj = Instantiate(itemPrefab);
-                    itemObj.transform.position = targetChar.transform.position;
-                    itemObj.iconSprite.sprite = VResourceLoad.Load<Sprite>("UI/" + itemIconDB.imagepath);
-                    itemObj.StartAnimation();
-                }
-            }
-        }
-        else
-        {
-            targetChar.PlayCharacterAnimation("BattleCharacterDamage");
-        }
-
-        currentTurnChar.EndJumpChar(targetChar.transform.position, startPosition);
         
+        switch (currentCharAttackType)
+        {
+            case AttackType.Melee:
+                currentTurnChar.StartJumpChar(startPosition, targetChar.transform.position);
+                yield return new WaitForSeconds(0.2f);
+
+                currentTurnChar.PlayCharacterAnimation("BattleCharacterAttack");
+                yield return effectManager.LoadEffectAndPlay(selectedCard.skillData.effectpath, targetChar.transform.position);
+
+                Damaged();
+
+                currentTurnChar.EndJumpChar(targetChar.transform.position, startPosition);
+                break;
+            case AttackType.Range:
+                currentTurnChar.PlayCharacterAnimation("BattleCharacterAttack");
+                yield return new WaitForSeconds(0.1f);
+
+                BulletObject bullet = Instantiate(bulletPrefab, currentTurnChar.transform);
+                bullet.StartBulletCoroutine(targetChar.transform.position, currentTurnChar.playerSide);
+                yield return new WaitForSeconds(0.4f);
+
+                yield return effectManager.LoadEffectAndPlay(selectedCard.skillData.effectpath, targetChar.transform.position);
+                Damaged();
+                break;
+            case AttackType.Magic:
+                currentTurnChar.PlayCharacterAnimation("BattleCharacterAttack");
+
+                Vector3 targetTransfrom = currentTurnChar.playerSide? enemyTile[4].transform.position: playerTile[4].transform.position;
+
+                yield return effectManager.LoadEffectAndPlay(selectedCard.skillData.effectpath, targetTransfrom);
+                Debug.Log("TargetsDamaged");
+                TargetsDamaged();
+                break;
+            case AttackType.Heal:
+                break;
+        }
+
+        cameraShake.shakeDuration = 0.3f;
+
+        battleUIManager.skillSelectPanel.SkillCoolTimeSet();
+
         battleStatus = BattleStatus.turnend;
 
         yield return null;
@@ -634,16 +696,31 @@ public class BattleManager : MonoBehaviour
                 battleClearFlg = false;
             }
 
-            yield return new WaitForSeconds(1.0f);
-
             battleUIManager.skillSelectPanel.activeSkillPanel(false);
-            battleUIManager.battleResultPanel.SetItemIcon(itemList, gold, exp);
-            battleUIManager.battleResultPanel.gameObject.SetActive(true);
+            
+            yield return new WaitForSeconds(1.0f);
+            
+            if (battleClearFlg)
+            {
+                battleUIManager.battleResultPanel.SetItemIcon(itemList, gold, exp);
+                battleUIManager.battleResultPanel.gameObject.SetActive(true);
+
+                if( GameManager.Instance.userData.clearedQuests < GameManager.Instance.currentBattleMapData.id )
+                {
+                    GameManager.Instance.userData.clearedQuests = GameManager.Instance.currentBattleMapData.id;
+                }
+            }
+            else
+            {
+                SceneManager.LoadScene("MapScene");
+            }
 
             battleStatus = BattleStatus.exit;
         }
         else
         {
+            selectedCard.skillData.cooltime = selectedCard.skillData.maxcooltime;
+
             targetChar = null;
             selectedCard = null;
             currentTurnChar = charTurnList[1];

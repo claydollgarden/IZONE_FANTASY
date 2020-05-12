@@ -255,7 +255,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 1
+  m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -520,13 +520,13 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2014247742}
         m_MethodName: MapButtonClick
-        m_Mode: 2
+        m_Mode: 5
         m_Arguments:
-          m_ObjectArgument: {fileID: 1748681814}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: 2,0
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &534374642
@@ -723,7 +723,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2014247742}
         m_MethodName: BackButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -905,13 +905,13 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2014247742}
         m_MethodName: MapButtonClick
-        m_Mode: 2
+        m_Mode: 5
         m_Arguments:
-          m_ObjectArgument: {fileID: 640103469}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: 3,0
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &777666938
@@ -1085,13 +1085,13 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2014247742}
         m_MethodName: MapButtonClick
-        m_Mode: 2
+        m_Mode: 5
         m_Arguments:
-          m_ObjectArgument: {fileID: 227437305}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: 4,0
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &964869816
@@ -1619,13 +1619,13 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2014247742}
         m_MethodName: MapButtonClick
-        m_Mode: 2
+        m_Mode: 5
         m_Arguments:
-          m_ObjectArgument: {fileID: 1328915946}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: 1,2
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1592660939
@@ -1953,13 +1953,13 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2014247742}
         m_MethodName: MapButtonClick
-        m_Mode: 2
+        m_Mode: 5
         m_Arguments:
-          m_ObjectArgument: {fileID: 1727070267}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: 5,0
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1760554358
@@ -2109,6 +2109,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fullScreenImage: {fileID: 75376139}
+  mapObjects:
+  - {fileID: 1592660935}
+  - {fileID: 534374638}
+  - {fileID: 777666934}
+  - {fileID: 964869812}
+  - {fileID: 1760554354}
 --- !u!4 &2014247743
 Transform:
   m_ObjectHideFlags: 0

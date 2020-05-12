@@ -49,7 +49,15 @@ public class TitleManager : MonoBehaviour
         color.a = 1.0f;
         fullScreenImage.color = color;
 
-        SceneManager.LoadScene("MainScene");
+        if(GameManager.Instance.userData.scenarioNumber > 0)
+        {
+            SceneManager.LoadScene("MainScene");
+        }
+        else
+        {
+            GameManager.Instance.novelNumber = 1;
+            SceneManager.LoadScene("NovelScene");
+        }
 
         isClicked = false;
     }
